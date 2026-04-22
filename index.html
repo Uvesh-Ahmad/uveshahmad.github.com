@@ -892,8 +892,17 @@
 
   <!-- LOGIN STATE -->
   <div id="admin-panel-login">
-    <div style="padding:1rem 1.1rem;">
-      <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:10px;">Enter admin password to manage content:</div>
+    <!-- BLOCKED STATE -->
+    <div id="admin-ip-blocked" style="display:none; padding:1.2rem 1.1rem; text-align:center;">
+      <div style="font-size:2rem; margin-bottom:8px;">🚫</div>
+      <div style="font-size:13.5px; font-weight:700; color:#8B0000; margin-bottom:6px;">Access Permanently Blocked</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Your IP address has been locked due to multiple failed login attempts.</div>
+      <div style="font-size:11px; background:#fff3f3; border:1px solid #f5c6c6; border-radius:4px; padding:8px 10px; color:#8B0000; font-family:monospace; word-break:break-all;" id="blocked-ip-display"></div>
+    </div>
+    <!-- NORMAL LOGIN -->
+    <div id="admin-panel-login-form" style="padding:1rem 1.1rem;">
+      <div style="font-size:12.5px; color:var(--text-muted); margin-bottom:6px;">Enter admin password to manage content:</div>
+      <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:10px;" id="admin-attempts-msg"></div>
       <input type="password" class="form-control" id="admin-panel-pass" placeholder="Password"
         onkeydown="if(event.key==='Enter') adminPanelLogin()" style="margin-bottom:10px;">
       <div class="form-error" id="admin-panel-error">❌ Incorrect password.</div>
@@ -918,7 +927,9 @@
       <button class="admin-panel-btn" onclick="onManageNotifs(); toggleAdminPanel()">🔔 Manage Notifications</button>
     </div>
     <div class="admin-panel-section">
-      <div class="admin-panel-section-title">ℹ Info</div>
+      <div class="admin-panel-section-title">🔐 Security</div>
+      <button class="admin-panel-btn" onclick="showLockedIPs()" style="color:#8B0000; border-color:#f5c6c6; background:#fff3f3;">🚫 View Blocked IPs</button>
+    </div>
       <div style="font-size:12px; color:var(--text-muted); padding:0 0 8px;">
         Hover over any item to see <b>Edit</b> &amp; <b>Delete</b> buttons.
       </div>
@@ -1463,20 +1474,130 @@ function updateAdminUI() {
 
 // ─── ADMIN PANEL TOGGLE ────────────────────
 function toggleAdminPanel() {
-  document.getElementById('admin-panel').classList.toggle('open');
+  const panel = document.getElementById('admin-panel');
+  const isOpening = !panel.classList.contains('open');
+  panel.classList.toggle('open');
   document.getElementById('admin-panel-error').classList.remove('show');
+  if (isOpening && !isAdmin) {
+    checkIPOnPanelOpen();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// IP LOCK SYSTEM
+// ══════════════════════════════════════════════════════════════
+const MAX_ATTEMPTS = 3; // Lock after 3 wrong attempts
+let currentUserIP = null;
+
+// Fetch real IP on page load
+async function fetchUserIP() {
+  try {
+    const r = await fetch('https://api.ipify.org?format=json');
+    const d = await r.json();
+    currentUserIP = d.ip;
+  } catch {
+    try {
+      const r2 = await fetch('https://api64.ipify.org?format=json');
+      const d2 = await r2.json();
+      currentUserIP = d2.ip;
+    } catch {
+      currentUserIP = 'unknown-' + navigator.userAgent.replace(/\s/g,'').slice(0,20);
+    }
+  }
+  checkIPOnPanelOpen();
+}
+
+function getLockedIPs() {
+  try { return JSON.parse(localStorage.getItem('uvesh_locked_ips') || '[]'); } catch { return []; }
+}
+function saveLockedIPs(list) { localStorage.setItem('uvesh_locked_ips', JSON.stringify(list)); }
+
+function getAttempts(ip) {
+  try { return parseInt(localStorage.getItem('uvesh_attempts_' + ip) || '0'); } catch { return 0; }
+}
+function saveAttempts(ip, n) { localStorage.setItem('uvesh_attempts_' + ip, n); }
+function clearAttempts(ip) { localStorage.removeItem('uvesh_attempts_' + ip); }
+
+function isIPLocked(ip) {
+  return ip && getLockedIPs().includes(ip);
+}
+
+function lockIP(ip) {
+  if (!ip || ip.startsWith('unknown')) return;
+  const list = getLockedIPs();
+  if (!list.includes(ip)) {
+    list.push(ip);
+    saveLockedIPs(list);
+    // Log lock event with timestamp
+    const log = JSON.parse(localStorage.getItem('uvesh_lock_log') || '[]');
+    log.push({ ip, time: new Date().toISOString(), ua: navigator.userAgent.slice(0,80) });
+    localStorage.setItem('uvesh_lock_log', JSON.stringify(log));
+  }
+}
+
+function checkIPOnPanelOpen() {
+  if (!currentUserIP) return;
+  if (isIPLocked(currentUserIP)) {
+    showIPBlocked(currentUserIP);
+    return;
+  }
+  const attempts = getAttempts(currentUserIP);
+  const remaining = MAX_ATTEMPTS - attempts;
+  const msgEl = document.getElementById('admin-attempts-msg');
+  if (msgEl && attempts > 0) {
+    msgEl.innerHTML = `⚠️ <b>${remaining} attempt${remaining !== 1 ? 's' : ''} remaining</b> before permanent IP lock.`;
+    msgEl.style.color = '#8a6400';
+  } else if (msgEl) {
+    msgEl.innerHTML = '';
+  }
+}
+
+function showIPBlocked(ip) {
+  document.getElementById('admin-ip-blocked').style.display = 'block';
+  document.getElementById('admin-panel-login-form').style.display = 'none';
+  document.getElementById('blocked-ip-display').textContent = '🔒 Locked IP: ' + ip;
+  document.getElementById('admin-panel-status').textContent = '🚫 IP Blocked';
 }
 
 function adminPanelLogin() {
+  // Check IP lock first
+  if (currentUserIP && isIPLocked(currentUserIP)) {
+    showIPBlocked(currentUserIP);
+    return;
+  }
+
   const val = document.getElementById('admin-panel-pass').value.trim();
   if (val === ADMIN_PASSWORD) {
+    // Correct — clear attempts, login
+    if (currentUserIP) clearAttempts(currentUserIP);
     isAdmin = true;
     document.getElementById('admin-panel-pass').value = '';
+    document.getElementById('admin-attempts-msg').innerHTML = '';
     updateAdminUI();
     renderEdu(); renderExp(); renderPubs(); renderProjs(); renderAwards();
     renderAchievements(); renderBlog();
   } else {
-    document.getElementById('admin-panel-error').classList.add('show');
+    // Wrong password — track attempts
+    const ip = currentUserIP || 'unknown';
+    const attempts = getAttempts(ip) + 1;
+    saveAttempts(ip, attempts);
+
+    if (attempts >= MAX_ATTEMPTS) {
+      lockIP(ip);
+      document.getElementById('admin-panel-pass').value = '';
+      showIPBlocked(ip);
+      return;
+    }
+
+    const remaining = MAX_ATTEMPTS - attempts;
+    const errEl = document.getElementById('admin-panel-error');
+    errEl.classList.add('show');
+    errEl.innerHTML = `❌ Incorrect password. <b>${remaining} attempt${remaining !== 1 ? 's' : ''} left</b> before IP lock.`;
+
+    const msgEl = document.getElementById('admin-attempts-msg');
+    msgEl.innerHTML = `⚠️ <b>${remaining} attempt${remaining !== 1 ? 's' : ''} remaining</b> before permanent IP lock.`;
+    msgEl.style.color = '#8a6400';
+
     document.getElementById('admin-panel-pass').focus();
   }
 }
@@ -2192,6 +2313,7 @@ const _origUpdateAdmin = updateAdminUI;
 // Override onAddAchievement to also handle manage-notifs pending action
 const _origOnAdd = window.onAddAchievement;
 document.addEventListener('DOMContentLoaded', function() {
+  fetchUserIP(); // IP lock system
   renderAchievements();
   renderBlog();
   renderEdu();
@@ -2215,6 +2337,57 @@ document.addEventListener('click', function(e) {
 });
 
 
+</script>
+<!-- ══════════════════════════════════════
+     MODAL: BLOCKED IPs
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-blocked-ips">
+  <div class="modal-box" style="max-width:460px;">
+    <div class="modal-header">
+      <h3>🚫 Blocked IP Addresses</h3>
+      <button class="modal-close" onclick="closeModal('modal-blocked-ips')">✕</button>
+    </div>
+    <div id="blocked-ips-list" style="max-height:320px; overflow-y:auto;"></div>
+    <div class="form-actions" style="margin-top:1rem;">
+      <button class="btn-secondary" onclick="closeModal('modal-blocked-ips')">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── IP LOCK: showLockedIPs ──────────────────
+function showLockedIPs() {
+  const list = getLockedIPs();
+  const log  = JSON.parse(localStorage.getItem('uvesh_lock_log') || '[]');
+  const el   = document.getElementById('blocked-ips-list');
+  if (!list.length) {
+    el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-muted);font-size:13px;">No IPs are currently blocked.</div>';
+  } else {
+    el.innerHTML = list.map(ip => {
+      const entry = log.filter(l => l.ip === ip).pop();
+      const time  = entry ? new Date(entry.time).toLocaleString('en-IN') : '—';
+      const ua    = entry ? entry.ua : '—';
+      return `
+        <div style="border:1px solid #f5c6c6;border-radius:5px;padding:11px 14px;margin-bottom:10px;background:#fff8f8;position:relative;">
+          <div style="font-size:13.5px;font-weight:700;color:#8B0000;font-family:monospace;margin-bottom:4px;">🔒 ${ip}</div>
+          <div style="font-size:11.5px;color:var(--text-muted);">📅 Locked: ${time}</div>
+          <div style="font-size:11px;color:var(--text-light);margin-top:2px;word-break:break-all;">🖥 ${ua}</div>
+          <button onclick="unblockIP('${ip}')" style="position:absolute;top:10px;right:10px;background:#276136;color:#fff;border:none;border-radius:3px;padding:3px 10px;font-size:11.5px;cursor:pointer;font-family:'Open Sans',sans-serif;">✅ Unblock</button>
+        </div>`;
+    }).join('');
+  }
+  openModal('modal-blocked-ips');
+}
+
+function unblockIP(ip) {
+  if (!confirm('Unblock IP: ' + ip + '?')) return;
+  saveLockedIPs(getLockedIPs().filter(i => i !== ip));
+  clearAttempts(ip);
+  // Remove from log
+  const log = JSON.parse(localStorage.getItem('uvesh_lock_log') || '[]').filter(l => l.ip !== ip);
+  localStorage.setItem('uvesh_lock_log', JSON.stringify(log));
+  showLockedIPs();
+}
 </script>
 
 </body>
