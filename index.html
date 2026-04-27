@@ -159,7 +159,50 @@
   .footer-disclaimer { color: rgba(255,255,255,0.3); font-size: 11.5px; }
   @media (max-width: 768px) { .footer-top-inner { grid-template-columns: 1fr; gap: 1.5rem; } }
 
-  /* ══ FLAG COUNTER ══ */
+  /* ══ MULTI IMAGE UPLOAD ══ */
+  .multi-drop-zone {
+    border: 2px dashed #ccc; border-radius: 8px; padding: 2rem 1rem;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; text-align: center; transition: border-color 0.2s, background 0.2s;
+    background: var(--jmi-light);
+  }
+  .multi-drop-zone:hover, .multi-drop-zone.drag-over {
+    border-color: var(--jmi-red); background: #fff5f5;
+  }
+  .multi-drop-icon { font-size: 2.2rem; margin-bottom: 8px; }
+  .achv-batch-card {
+    display: grid; grid-template-columns: 90px 1fr; gap: 12px;
+    border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;
+    background: var(--surface); align-items: start;
+  }
+  .achv-batch-thumb {
+    width: 90px; height: 72px; object-fit: cover; border-radius: 4px;
+    border: 1px solid var(--border); display: block;
+  }
+  .achv-batch-thumb-placeholder {
+    width: 90px; height: 72px; border-radius: 4px; border: 1px dashed #ccc;
+    background: #f5f5f5; display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: #ccc;
+  }
+  .achv-batch-remove {
+    float: right; background: none; border: none; color: #aaa; font-size: 16px;
+    cursor: pointer; line-height: 1; padding: 0 2px;
+  }
+  .achv-batch-remove:hover { color: var(--jmi-red); }
+  /* ══ BLOG EDITOR TOOLBAR ══ */
+  .blog-toolbar {
+    display: flex; flex-wrap: wrap; gap: 4px; padding: 7px 10px;
+    background: #f8f8f8; border: 1px solid var(--border); border-bottom: none;
+    border-radius: 4px 4px 0 0;
+  }
+  .blog-tb-btn {
+    font-size: 12.5px; padding: 4px 10px; border-radius: 3px; border: 1px solid #ddd;
+    background: #fff; color: var(--text); cursor: pointer;
+    font-family: 'Open Sans', sans-serif; transition: background 0.15s;
+  }
+  .blog-tb-btn:hover { background: #eef3fa; border-color: #b8d0ed; }
+  .blog-tb-sep { width: 1px; background: #ddd; margin: 2px 4px; }
+  #blog-content-input { border-radius: 0 0 4px 4px !important; }
   .flag-counter-box {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 4px; overflow: hidden; margin-bottom: 1.25rem;
@@ -177,8 +220,30 @@
     text-align: center; padding: 0 12px 10px;
   }
 
-  /* Admin item-level controls */
-  .item-admin-btns { display: none; gap: 5px; margin-top: 8px; }
+  /* Blog inline images in reader */
+  .blog-inline-img { max-width: 100%; border-radius: 6px; margin: 1rem auto; display: block; cursor: zoom-in; box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+  /* Achievement lightbox */
+  .achv-lightbox {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeIn 0.2s ease;
+  }
+  .achv-lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 6px; box-shadow: 0 8px 40px rgba(0,0,0,0.6); object-fit: contain; }
+  .achv-lightbox-close { position: fixed; top: 18px; right: 22px; background: rgba(255,255,255,0.15); border: none; color: #fff; font-size: 28px; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .achv-lightbox-close:hover { background: rgba(255,255,255,0.3); }
+  .achv-lightbox-caption { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: #fff; font-size: 13.5px; padding: 8px 18px; border-radius: 20px; text-align: center; max-width: 80vw; }
+  /* Clickable achievement card */
+  .achv-img { cursor: zoom-in; transition: transform 0.2s; }
+  .achv-img:hover { transform: scale(1.03); }
+  /* Achievement "Add More" zone */
+  .achv-addmore-btn { display:inline-flex; align-items:center; gap:6px; background:var(--jmi-light); border:2px dashed var(--jmi-gold); color:var(--jmi-red); font-size:13px; font-weight:600; padding:8px 18px; border-radius:5px; cursor:pointer; font-family:'Open Sans',sans-serif; margin-top:8px; }
+  .item-admin-btns { display: none; gap: 5px; margin-top: 8px; align-items:center; }
+  .item-move-btn {
+    font-size: 13px; padding: 2px 7px; border-radius: 3px; border: 1px solid #ddd;
+    background: #f5f5f5; color: var(--text-muted); cursor: pointer;
+    font-family: 'Open Sans', sans-serif; line-height: 1.4;
+  }
+  .item-move-btn:hover { background: #e0e0e0; color: var(--text); }
 
   /* ══ FLOATING ADMIN PANEL ══ */
   /* ══ ADMIN PANEL (top-right dropdown) ══ */
@@ -463,10 +528,42 @@
   .img-preview-box { width: 100%; max-height: 200px; object-fit: cover; border-radius: 4px; margin-top: 10px; display: none; border: 1px solid var(--border); }
 
   /* Post Reader */
-  .post-cover-img { width: 100%; max-height: 260px; object-fit: cover; border-radius: 6px; margin-bottom: 1.2rem; display: none; }
-  .post-body-text { font-size: 14.5px; color: var(--text); line-height: 1.8; white-space: pre-wrap; border-top: 1px solid var(--border); padding-top: 1.2rem; margin-top: 1rem; }
-  .post-tags-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.2rem; }
+  .post-cover-img { width: 100%; max-height: 320px; object-fit: cover; border-radius: 6px; margin-bottom: 1.5rem; display: none; }
+  .post-body-text {
+    font-size: 15.5px; color: #1a1a1a; line-height: 1.9;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    border-top: 2px solid var(--jmi-red); padding-top: 1.4rem; margin-top: 1rem;
+  }
+  .post-body-text p { margin: 0 0 1.2em; }
+  .post-body-text h1,.post-body-text h2,.post-body-text h3 {
+    font-family: 'Open Sans', sans-serif; color: var(--jmi-red-dark);
+    margin: 1.5em 0 0.5em; line-height: 1.3;
+  }
+  .post-body-text h2 { font-size: 1.2em; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+  .post-body-text h3 { font-size: 1.05em; }
+  .post-body-text blockquote {
+    border-left: 4px solid var(--jmi-gold); background: var(--jmi-light);
+    margin: 1.2em 0; padding: 10px 18px; border-radius: 0 4px 4px 0;
+    font-style: italic; color: #444;
+  }
+  .post-body-text code {
+    background: #f3f3f3; border: 1px solid #ddd; border-radius: 3px;
+    padding: 1px 6px; font-size: 0.9em; font-family: 'Courier New', monospace;
+  }
+  .post-body-text ul, .post-body-text ol { padding-left: 1.6em; margin: 0 0 1.2em; }
+  .post-body-text li { margin-bottom: 0.4em; }
+  .post-body-text a { color: var(--link); }
+  .post-tags-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--border); }
   .post-tag { font-size: 12px; background: #eef3fa; color: var(--link); border: 1px solid #b8d0ed; border-radius: 3px; padding: 2px 9px; }
+  /* Read progress bar */
+  .read-progress-bar {
+    position: sticky; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--jmi-red), var(--jmi-gold));
+    width: 0%; transition: width 0.1s; z-index: 10; border-radius: 0 2px 2px 0;
+    margin: -1.8rem -1.8rem 1.2rem;
+  }
+  /* Wider read modal */
+  #modal-read-post .modal-box { max-width: 780px; max-height: 92vh; padding: 1.8rem; }
 
   @media (max-width: 768px) {
     .page-inner { flex-direction: column; }
@@ -487,9 +584,27 @@
 <div class="topbar">
   <div class="topbar-inner">
     <a href="https://jmi.ac.in"><b>jmi.ac.in</b></a>
-    <a href="https://www.linkedin.com/in/uvesh-ahmad000/" target="_blank">LinkedIn</a>
-    <a href="https://x.com/@uveshah" target="_blank">Twitter/X</a>
-    <a href="#" id="admin-topbar-btn" onclick="toggleAdminPanel(); return false;" style="color:rgba(189, 11, 11, 0.993);">⚙ Admin</a>
+    <a href="https://www.linkedin.com/in/uvesh-ahmad000/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; color:#ffffff;">
+  
+  <!-- LinkedIn Icon -->
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A66C2">
+    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+    <rect x="2" y="9" width="4" height="12"/>
+    <circle cx="4" cy="4" r="2"/>
+  </svg>
+
+  <b>LinkedIn</b>
+</a>
+
+<a href="https://x.com/@uveshah" target="_blank" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; color:#ffffff; margin-left:10px;">
+  
+  <!-- X / Twitter Icon -->
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="#ffffff">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+ <b>Twitter/X </b>
+</a>
+    <a href="#" id="admin-topbar-btn" onclick="toggleAdminPanel(); return false;" style="color:rgba(255,255,255,0.8);">⚙ Admin</a>
   </div>
 </div>
 
@@ -502,7 +617,7 @@
       </div>
       <div class="logo-text">
         <div class="uni">Uvesh Ahmad</div>
-        <div class="sub">Visiting/ Part-Time Faculty · CIE, Jamia Millia Islamia University, New Delhi, India</div>
+        <div class="sub">Visiting Faculty/ (Part-time) CIE, Jamia Millia Islamia Universit, New Delhi, India</div>
       </div>
     </div>
     <div class="header-search" style="position:relative;">
@@ -567,20 +682,35 @@
 
     <div class="owner-note">
       <strong>Profile Owner?</strong><br>
-      <a href="#" onclick="openAdminLogin(); return false;">Login to manage</a>
+      <a href="#" onclick="openAdminLogin(); return false;">Login to manage </a>
+    </div>
+<!-- VISITOR COUNTER -->
+<div class="flag-counter-box">
+  <div class="flag-counter-title">🌍 Visitor Map</div>
+
+  <div class="flag-counter-inner" id="visitor-counter-box">
+
+    <!-- 🌍 REAL FlagCounter -->
+    <div style="text-align:center; margin-bottom:8px;">
+      <a href="https://info.flagcounter.com/JuU0" target="_blank">
+        <img 
+          src="https://s01.flagcounter.com/count2/JuU0/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" 
+          alt="Visitor Map"
+          style="max-width:100%; border-radius:4px; display:block;"
+        >
+      </a>
     </div>
 
-    <!-- FLAG COUNTER -->
-    <div class="flag-counter-box">
-      <div class="flag-counter-title">🌍 Visitor</div>
-      <div class="flag-counter-inner">
-        <a href="https://info.flagcounter.com/UveshAhmad" target="_blank">
-          <img src="https://s11.flagcounter.com/count2/abcd/bg_FFFFFF/txt_2c2c2c/border_ddd/columns_2/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/"
-            alt="Flag Counter" style="max-width:100%; border-radius:3px; display:block;">
-        </a>
-      </div>
-      <div class="flag-counter-note">Visitors from around the world</div>
+    <!-- Local visit counter (optional, still works) -->
+    <div id="local-visit-count" 
+      style="margin-top:6px; font-size:11px; color:var(--text-light); text-align:center;">
     </div>
+
+  </div>
+
+  <div class="flag-counter-note">Visitors from around the world</div>
+</div>
+    
   </aside>
 
   <!-- RIGHT COL -->
@@ -590,15 +720,15 @@
     <div class="profile-headline">
       <h1>Uvesh Ahmad</h1>
       <div class="credentials">
-        <b>Master of Computer Applications (MCA)</b><br>
-        <ul>Bachelor of Computer Applications (BCA)</ul>
-        <ul>Associate/ Diploma in Computer Engineering </ul>
-        <ul>Certificate  in Electrical Engineering, Industrial Training Institutes (ITIs), National Council for Vocational Training </ul><br>
-
+        <b>Master of Computer Applications (MCA)</b> – 2 Years <br>
+<ul>
+  <b>Bachelor of Computer Applications (BCA)</b> – 3 Years</li><br>
+  <b>Associate Degree / Diploma in Computer Engineering</b> – 3 Years</li>
+</ul>
       </div>
       <div class="affiliations-box">
         <h3>Affiliations</h3>
-        <div class="aff-item"><b>Visiting Faculty / Part-Time</b> — Python Programming</div>
+        <div class="aff-item"><b>Visiting Faculty/Part-Time</b> — Python Programming</div>
         <div class="aff-item">
           <a href="https://jmi.ac.in/cie"><b>Centre for Innovation &amp; Entrepreneurship (CIE)</b></a>,
           <a href="https://jmi.ac.in"><b>Jamia Millia Islamia University</b></a>, New Delhi, India
@@ -616,7 +746,7 @@
         <span class="contact-label">Email</span>
         <span><a href="mailto:uvesh180258@st.jmi.ac.in">uvesh180258@st.jmi.ac.in</a><br><a href="mailto:uveshah20@gmail.com">uveshah20@gmail.com</a></span>
         <span class="contact-label">Phone</span>
-        <span>+91 88XX XXXXX</span>
+        <span>+91 8XXX XXXXX</span>
         <span class="contact-label">Location</span>
         <span>New Delhi, India</span>
       </div>
@@ -633,6 +763,26 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub
         </a>
         <a class="ext-link" href="https://uvesh.framer.ai/" target="_blank">🌐 Portfolio</a>
+      </div>
+
+      <!-- CV SECTION -->
+      <div style="margin-top:14px; padding:12px 14px; background:var(--jmi-light); border:1px solid var(--border); border-left:4px solid var(--jmi-red); border-radius:0 4px 4px 0;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:9px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B0000" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <div>
+              <div style="font-size:13px; font-weight:700; color:var(--text);">Curriculum Vitae (CV)</div>
+              <div style="font-size:11.5px; color:var(--text-muted);" id="cv-status-text">No CV uploaded yet.</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:7px; align-items:center; flex-wrap:wrap;">
+            <a id="cv-download-btn" href="#" download="Uvesh_Ahmad_CV.pdf" target="_blank"
+              style="display:none; font-size:12px; padding:5px 13px; background:#276136; color:#fff; border-radius:3px; text-decoration:none; font-weight:600;">
+              ⬇ Download CV
+            </a>
+            <button id="cv-upload-btn" onclick="onUploadCV()" style="display:none; font-size:11.5px; padding:4px 11px; background:var(--jmi-red); color:#fff; border:none; border-radius:3px; font-weight:600; cursor:pointer; font-family:'Open Sans',sans-serif;">🔄 Update CV</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -652,34 +802,136 @@
     </div>
 
     <!-- BIOGRAPHY -->
-    <div class="profile-section" id="biography">
-      <div class="section-title">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 10-16 0"/></svg>
-        Biography
-      </div>
-      <p class="bio-text">
-        Mr. Uvesh Ahmad serves as a Visiting Faculty (Part-Time) at the <a href="https://jmi.ac.in/cie"><b>Centre for Innovation &amp; Entrepreneurship (CIE)</b></a>, <a href="https://jmi.ac.in"><b>Jamia Millia Islamia University</b></a>, New Delhi, where he teaches Python Programming and mentors students in innovation, entrepreneurship, and industry-oriented technical skills. He has completed a Master of Computer Applications (MCA) at Amity University, Noida under the supervision of <a href="https://amity.edu/faculty-detail.aspx?facultyID=2909"><b>Dr. Rajbala Semon</b></a>, with whom he also serves as a Teaching Assistant.
-        <br><br>
-        His research interests include Artificial Intelligence, Machine Learning, Deep Learning, Natural Language Processing, and Computer Vision. He has published research indexed in <a href="https://ieeexplore.ieee.org/author/431439043104610"><b>IEEE Xplore</b></a> and has presented at <a href="https://www.iitmandi.ac.in/"><b>IIT Mandi</b></a>, <a href="https://nituk.ac.in/"><b>NIT Uttarakhand</b></a>, and <a href="https://bitmesra.ac.in/"><b>Birla Institute of Technology, Mesra</b></a>. Several papers are under review with <b>Wiley</b>, <b>Springer Nature</b>, and <b>Elsevier</b>.
-        <br><br>
-        Mr. Ahmad has gained international research exposure through programs at the <a href="https://www.hertie-school.org/en/datasciencelab"><b>Hertie School of Data Science Lab (Berlin)</b></a> and <a href="https://mcmedhacks.com/"><b>McMedHacks Lab (Canada)</b></a>. He is a recipient of the <a href="https://aws.amazon.com/about-aws/"><b>Fully Funded AWS Machine Learning Scholarship</b></a> and holds over 30 certifications in ML, Deep Learning, and Image Processing. He has participated in UNESCO's IndiaAI stakeholder consultation and the India Space Congress 2025.
-      </p>
-    </div>
+<div class="profile-section" id="biography">
+  <div class="section-title">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="8" r="5"/>
+      <path d="M20 21a8 8 0 10-16 0"/>
+    </svg>
+    Biography
+  </div>
 
+  <p class="bio-text">
+    I am a<b>  26 - year</b> old Academic and Researcher Currently serving as a Visiting Faculty (Part-Time) at the 
+    <a href="https://jmi.ac.in/cie"><b>Centre for Innovation &amp; Entrepreneurship (CIE)</b></a>, 
+    <a href="https://jmi.ac.in"><b>Jamia Millia Islamia University</b></a>, New Delhi. 
+    In this role, I teach Python Programming and Data Analytics, while Mentoring students in Innovation, Entrepreneurship, and Industry-Oriented Technical Skills. 
+    I teach<b> 6 Batches of Bachelor’s and Master’s </b> students from both Technical and Non-Technical backgrounds, guiding them in <b> Complete Dissertation/ Project Development</b> based on Real-world problem-solving. 
+    I bring over <b>2 + years</b> of Teaching and mentoring experience.
+
+    Alongside this, I am completing my Master of Computer Applications (MCA) and working as a <b> Teaching Assistant and Researcher at Amity University, Noida</b> under the Supervision of 
+    <a href="https://amity.edu/faculty-detail.aspx?facultyID=2909"><b> Prof.Dr. Rajbala Semon</b></a>, Contributing to Research in Artificial Intelligence, Machine Learning, and Data Science. 
+    I also have Teaching Assistant (TA) and Research Assistant (RA)<b> Experience Mentoring 7+ students </b>, where I guide them in preparing Dissertations, Research Papers, and Academic Projects.
+
+    <br><br>
+
+    My areas of Interest include <b>Artificial Intelligence, Machine Learning, Deep Learning, Natural Language Processing, and Computer Vision</b>. 
+    I have worked on Multiple Real-world projects Involving Neuro-Symbolic Systems, Object Detection, Image Processing, Predictive Analytics, and GenAI, focusing on building practical and impactful AI-driven solutions.
+    I also gained industry experience as a <b>Data Scientist (Trainee)</b> at <b>S.O. Infotech Pvt. Ltd. Noida</b>, where I worked on Real-world Problems using Real Datasets, Applying Machine Learning, Data analysis, and AI Techniques to develop practical solutions.
+
+    <br><br>
+
+    I have completed my Associate, Bachelor’s, and Master’s degrees from some of  <b>India’s Top Universities</b>, Establishing a strong and diverse academic foundation. 
+
+I hold a Master of Computer Applications (MCA) from 
+<a href="https://amity.edu/noida/"><b>Amity University, Noida</b></a>, 
+and a Bachelor of Computer Applications (BCA) from 
+<a href="https://www.lpu.in/"><b>Lovely Professional University</b></a>. 
+
+I also earned an Associate Degree/Diploma in Computer Engineering (3 years) from 
+<a href="https://jmi.ac.in"><b>Jamia Millia Islamia University</b></a>, 
+along with a Technical Certification (2 years) in the Electrician trade from the National Council for Vocational Training (NCVT) Industrial Training Institute (ITI), reflecting my multidisciplinary and technically rigorous academic background.
+
+<br><br>
+
+    I have Authored and Presented Multiple Research Papers at National and International Platforms. My work Includes a Publication indexed in 
+    <a href="https://ieeexplore.ieee.org/author/431439043104610"><b>IEEE Xplore</b></a> 
+    and presentations at 
+    <a href="https://www.iitmandi.ac.in/"><b>IIT Mandi</b></a>, 
+    <a href="https://nituk.ac.in/"><b>NIT Uttarakhand</b></a>, and 
+    <a href="https://bitmesra.ac.in/"><b>Birla Institute of Technology, Mesra</b></a>. 
+    I am Currently working on <b> 6+ Research papers</b> in <b> Collaboration with International Professors from the United States and other Countries.</b>
+    My Ongoing Research Focuses on Neuro-Symbolic AI, Real-Time Object Detection, and Video Super-Resolution, with several papers under review with <b>Wiley</b>, <b>Springer Nature</b>, and <b>Elsevier</b>.
+    
+    I have gained International Exposure through Fully Funded Programs at the 
+    <a href="https://www.hertie-school.org/en/datasciencelab"><b>Hertie School Data Science Lab (Berlin)</b></a> 
+    and 
+    <a href="https://mcmedhacks.com/"><b>McMedHacks Lab (Canada)</b></a>, 
+    where I worked on Data Science and Medical AI Applications. 
+    I am a recipient of the 
+    <a href="https://aws.amazon.com/about-aws/"><b>Fully Funded AWS Machine Learning Scholarship</b></a> 
+    and have Earned over 30+ Certifications in Machine Learning, Deep Learning, and Image Processing.
+
+    <br><br>
+
+    I have also received Multiple International Opportunities for Higher Education, Including  <b>  Offers from Universities </b> in the United States, UK and other Countries, with <b> Scholarships of up to $50,000.</b>
+    These include 
+    <a href="https://www.rochester.edu/"><b>The University of Rochester</b></a>, 
+    <a href="https://www.sheffield.ac.uk/"><b>The University of Sheffield</b></a>, 
+    <a href="https://www.bath.ac.uk/"><b>The University of Bath</b></a>, 
+    <a href="https://www.northeastern.edu/london/"><b>Northeastern University, London Campus</b></a>, 
+    and other (10+) leading institutions for advanced studies in Computer Science.
+
+    <br><br>
+
+    I actively participate in National and International initiatives related to Technology and Innovation. 
+    I have Contributed to UNESCO’s IndiaAI stakeholder consultation and attended the India Space Congress 2025. 
+    Additionally, I have Completed the NEP 2020 Orientation and Sensitization Programme under the 
+    <b>Malaviya Mission Teacher Training Programme (MMTTC) </b> of the University Grants Commission (UGC), India
+    Organized by the Malaviya Mission Teacher Training Centre (MMTTC), 
+    <a href="https://timesheadline.in/en/2025/08/08/jamias-mmttc-launches-ai-focused-refresher-course/">
+      <b>Jamia Millia Islamia – AI-Focused Refresher Course.</b>
+    </a>I have also Participated in AI-focused academic refresher programs Aimed at Strengthening Interdisciplinary Research and Teaching in Artificial Intelligence.
+  </p>
+</div>
     <!-- RESEARCH -->
-    <div class="profile-section" id="research">
-      <div class="section-title">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
-        Research Areas
-      </div>
-      <div class="research-tags">
-        <span class="rtag">Artificial Intelligence</span><span class="rtag">Machine Learning</span>
-        <span class="rtag">Deep Learning</span><span class="rtag">Natural Language Processing</span>
-        <span class="rtag">Computer Vision</span><span class="rtag">Generative AI</span>
-        <span class="rtag">Large Language Models</span><span class="rtag">Neuro-Symbolic AI</span>
-        <span class="rtag">Medical AI &amp; Imaging</span><span class="rtag">Smart Cities &amp; IoT</span>
-        <span class="rtag">Predictive Analytics</span><span class="rtag">Multidisciplinary Research</span>
-      </div>
+<div class="profile-section" id="research">
+  <div class="section-title">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+    </svg>
+    Research Areas & Technical Expertise
+  </div>
+
+  <div class="research-tags">
+    <!-- AI & ML -->
+    <span class="rtag">Artificial Intelligence</span>
+    <span class="rtag">Machine Learning</span>
+    <span class="rtag">Deep Learning</span>
+    <span class="rtag">Natural Language Processing (NLP)</span>
+    <span class="rtag">Generative AI</span>
+    <span class="rtag">Fine-Tuning</span>
+    <span class="rtag">RAG (Retrieval-Augmented Generation)</span>
+    <span class="rtag">LangChain</span>
+
+    <!-- Data Science -->
+    <span class="rtag">Predictive Modeling</span>
+    <span class="rtag">Clustering</span>
+    <span class="rtag">Data Modeling</span>
+    <span class="rtag">Statistical Analysis</span>
+    <span class="rtag">Exploratory Data Analysis (EDA)</span>
+
+    <!-- Development -->
+    <span class="rtag">PyTorch</span>
+    <span class="rtag">TensorFlow</span>
+    <span class="rtag">OpenAI API</span>
+    <span class="rtag">FastAPI</span>
+    <span class="rtag">Streamlit</span>
+    <span class="rtag">Flask</span>
+    <span class="rtag">Django</span>
+    <span class="rtag">Docker</span>
+
+    <!-- Tools & Libraries -->
+    <span class="rtag">Scikit-Learn</span>
+    <span class="rtag">NumPy</span>
+    <span class="rtag">SciPy</span>
+    <span class="rtag">OpenCV</span>
+
+    <!-- Programming -->
+    <span class="rtag">Python</span>
+    <span class="rtag">C/ C#/ C++</span>
+    <span class="rtag">SQL/ NoSQL/ MongoBD </span>
+  </div>
     </div>
 
     <!-- EDUCATION -->
@@ -759,116 +1011,199 @@
 
 <!-- FOOTER -->
 <footer>
+<!-- FOOTER TOP -->
+<div class="footer-top">
+  <div class="footer-top-inner">
 
-  <!-- TOP SECTION -->
-  <div class="footer-top">
-    <div class="footer-top-inner">
-
-      <!-- COL 1: Brand + Contact -->
-      <div>
-        <div class="footer-brand-name">Uvesh Ahmad</div>
-        <div class="footer-brand-title">
-          AI Researcher &amp; Educator · Visiting Faculty, CIE<br>
-          Jamia Millia Islamia University, New Delhi
-        </div>
-
-        <div class="footer-col-title">Contact Information</div>
-
-        <div class="footer-contact-item">
-          <svg class="footer-contact-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <div>
-            <a href="mailto:uvesh180258@st.jmi.ac.in">uvesh180258@st.jmi.ac.in</a><br>
-            <a href="mailto:uveshah20@gmail.com">uveshah20@gmail.com</a>
+    <!-- COL 1: Brand + Contact -->
+    <div>
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+        <div style="width:38px; height:38px; background:rgba(200,164,65,0.15); border:1.5px solid var(--jmi-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">🎓</div>
+        <div>
+          <div class="footer-brand-name">Uvesh Ahmad</div>
+          <div class="footer-brand-title" style="margin:0;"> <ui> <b>Artificial Intelligence | Machine Learning Researcher</b> </ui><br>
+            <ui><b>Visiting/ Part-Time Faculty</b>, Centre For Innovation And Entrepreneurship (CIE), 
+              <ui> Jamia Millia Islamia University, New Delhi</ui>
           </div>
         </div>
+      </div>
 
-        <div class="footer-contact-item">
-          <svg class="footer-contact-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 013 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-          <div>+91 88592 31746</div>
-        </div>
+      <!-- Gold divider -->
+      <div style="width:40px; height:2px; background:var(--jmi-gold); border-radius:2px; margin-bottom:14px;"></div>
 
-        <div class="footer-contact-item">
-          <svg class="footer-contact-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <div>New Delhi, India</div>
+      <div class="footer-col-title">Contact Information</div>
+
+      <div class="footer-contact-item">
+        <svg class="footer-contact-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div>
+          <a href="mailto:uvesh180258@st.jmi.ac.in">uvesh180258@st.jmi.ac.in</a><br>
+          <a href="mailto:uveshah20@gmail.com">uveshah20@gmail.com</a>
         </div>
       </div>
 
-      <!-- COL 2: Quick Links -->
-      <div>
-        <div class="footer-col-title">Quick Links</div>
-        <div class="footer-nav-links">
-          <a href="#biography">Biography</a>
-          <a href="#research">Research Areas</a>
-          <a href="#education">Education</a>
-          <a href="#experience">Experience</a>
-          <a href="#publications">Publications</a>
-          <a href="#projects">Projects</a>
-          <a href="#achievements">Achievements Gallery</a>
-          <a href="#blog">Blog &amp; Articles</a>
-          <a href="#awards">Awards</a>
-          <a href="#contact">Contact</a>
-        </div>
+      <div class="footer-contact-item">
+        <svg class="footer-contact-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 013 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <div>+91 XXX  xxxxx</div>
       </div>
 
-      <!-- COL 3: Social / Academic Links -->
-      <div>
-        <div class="footer-col-title">Find Me Online</div>
-        <div class="footer-social-grid">
-
-          <a class="footer-social-btn" href="https://www.linkedin.com/in/uvesh-ahmad000/" target="_blank">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            LinkedIn
-          </a>
-
-          <a class="footer-social-btn" href="https://scholar.google.com/citations?user=FHoUy3QAAAAJ&hl=en" target="_blank">
-            📚 Google Scholar
-          </a>
-
-          <a class="footer-social-btn" href="https://ieeexplore.ieee.org/author/431439043104610" target="_blank">
-            ⚡ IEEE Xplore
-          </a>
-
-          <a class="footer-social-btn" href="https://orcid.org/0009-0001-3573-320X" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/06/ORCID_iD.svg" width="13" alt="ORCID">
-            ORCID
-          </a>
-
-          <a class="footer-social-btn" href="https://github.com/Uvesh-Ahmad" target="_blank">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            GitHub
-          </a>
-
-          <a class="footer-social-btn" href="https://uvesh.framer.ai/" target="_blank">
-            🌐 Portfolio
-          </a>
-
-          <a class="footer-social-btn" href="https://x.com/@uveshah" target="_blank">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            Twitter / X
-          </a>
-
-          <a class="footer-social-btn" href="https://jmi.ac.in" target="_blank">
-            🏛 JMI Official
-          </a>
-
-        </div>
-
-        <div style="margin-top:1.4rem; padding:12px 14px; background:rgba(200,152,30,0.1); border:1px solid rgba(200,152,30,0.3); border-radius:5px;">
-          <div style="font-size:11px; color:var(--jmi-gold); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:4px;">NAAC Accredited</div>
-          <div style="font-size:12px; color:rgba(255,255,255,0.6);">Jamia Millia Islamia — A++ Grade · Central University of India · Est. 1920</div>
-        </div>
+      <div class="footer-contact-item">
+        <svg class="footer-contact-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div>New Delhi, India 🇮🇳</div>
       </div>
 
+      
     </div>
-  </div>
 
-  <!-- BOTTOM BAR -->
-  <div class="footer-bottom">
-    <div class="footer-bottom-inner">
-      <div class="footer-copy">© 2026 Uvesh Ahmad · Personal Academic Profile</div>
-      <div class="footer-disclaimer">Not an official page of Jamia Millia Islamia University</div>
-    </div>
+    
+
+    <!-- COL 3: Social Links -->
+<div>
+  <div class="footer-col-title">Find Me Online</div>
+  <div style="width:30px; height:2px; background:var(--jmi-gold); border-radius:2px; margin-bottom:12px;"></div>
+
+  <div class="footer-social-grid">
+
+    <!-- Row 1 (3 items) -->
+    <a class="footer-social-btn" href="https://www.linkedin.com/in/uvesh-ahmad000/" target="_blank">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+        <rect x="2" y="9" width="4" height="12"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+      LinkedIn
+    </a>
+
+    <a class="footer-social-btn" href="https://scholar.google.com/citations?user=FHoUy3QAAAAJ&hl=en" target="_blank">
+      📚 Google Scholar
+    </a>
+
+    <a class="footer-social-btn" href="https://ieeexplore.ieee.org/author/431439043104610" target="_blank">
+      ⚡ IEEE Xplore
+    </a>
+
+    <!-- Row 2 (3 items) -->
+    <a class="footer-social-btn" href="https://orcid.org/0009-0001-3573-320X" target="_blank">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/06/ORCID_iD.svg" width="13" alt="ORCID">
+      ORCID
+    </a>
+
+    <a class="footer-social-btn" href="https://github.com/Uvesh-Ahmad" target="_blank">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+      </svg>
+      GitHub
+    </a>
+
+    <a class="footer-social-btn" href="https://x.com/@uveshah" target="_blank">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      Twitter / X
+    </a>
+
   </div>
+</div>
+  </div>
+</div>
+
+  <!-- BOTTOM BAR — Replace your existing footer-bottom div with this -->
+<div class="footer-bottom">
+  <div class="footer-bottom-inner" style="flex-direction:column; gap:10px; padding: 1.2rem 1.5rem;">
+
+    <!-- Row 1: Copyright + Disclaimer -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; width:100%;">
+      <div style="color:rgba(255,255,255,0.55); font-size:12px;">
+        © 2020–2026 <strong style="color:rgba(255,255,255,0.75);">Uvesh Ahmad</strong>. All Rights Reserved.
+        &nbsp;·&nbsp; Academic Profile
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div style="width:100%; border-top:1px solid rgba(255,255,255,0.08);"></div>
+
+    <!-- Row 2: Legal Acts -->
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:6px 16px; width:100%;">
+      <span style="font-size:10.5px; color:rgba(255,255,255,0.38);">
+        🛡 Protected under <strong style="color:rgba(255,255,255,0.5);">Copyright Act, 1957</strong> 
+      </span>
+      <span style="color:rgba(255,255,255,0.2); font-size:10px;">|</span>
+      <span style="font-size:10.5px; color:rgba(255,255,255,0.38);">
+        <strong style="color:rgba(255,255,255,0.5);">IT Act, 2000</strong> 
+      </span>
+      <span style="color:rgba(255,255,255,0.2); font-size:10px;">|</span>
+      <span style="font-size:10.5px; color:rgba(255,255,255,0.38);">
+        <strong style="color:rgba(255,255,255,0.5);">IT (Amendment) Act, 2008</strong>
+      </span>
+      <span style="color:rgba(255,255,255,0.2); font-size:10px;">|</span>
+      <span style="font-size:10.5px; color:rgba(255,255,255,0.38);">
+        <strong style="color:rgba(255,255,255,0.5);">IT Rules, 2021</strong>
+      </span>
+      <span style="color:rgba(255,255,255,0.2); font-size:10px;">|</span>
+      <span style="font-size:10.5px; color:rgba(255,255,255,0.38);">
+        <strong style="color:rgba(255,255,255,0.5);">DPDP Act, 2023</strong>
+      </span>
+      <span style="color:rgba(255,255,255,0.2); font-size:10px;">|</span>
+      <span style="font-size:10.5px; color:rgba(255,255,255,0.38);">
+        <strong style="color:rgba(255,255,255,0.5);">IPC</strong> (Defamation)
+      </span>
+    </div>
+
+    <!-- Row 3: Warning Notice -->
+    <div style="width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:8px 14px; text-align:center;">
+      <span style="font-size:10.5px; color:rgba(255,255,255,0.35); line-height:1.7;">
+        ⚠️ Unauthorized reproduction, copying, scraping, or misuse of any content, data, images, or research work published on this website is strictly prohibited and constitutes a punishable offence under the
+        <strong style="color:rgba(255,255,255,0.45);">Copyright Act, 1957</strong> and
+        <strong style="color:rgba(255,255,255,0.45);">Information Technology Act, 2000</strong>, Government of India.
+        Legal action may be initiated against violators.
+      </span>
+    </div>
+
+    <!-- Row 4: Built with + Last updated -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; width:100%;">
+      <div style="font-size:10.5px; color:rgba(255,255,255,0.28);">
+        Jurisdiction: <strong style="color:rgba(255,255,255,0.38);">New Delhi, India</strong>
+        &nbsp;·&nbsp; Governed by laws of the <strong style="color:rgba(255,255,255,0.38);">Republic of India</strong>
+      </div>
+      <div style="font-size:10.5px; color:rgba(255,255,255,0.28); display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+  
+  <span>Connect:</span>
+
+  <!-- LinkedIn -->
+  <a href="https://www.linkedin.com/in/uvesh-ahmad000/" target="_blank"
+     style="display:flex; align-items:center; gap:6px; color:#ffffff; text-decoration:none;">
+
+    <!-- LinkedIn Icon (Blue) -->
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A66C2">
+      <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+      <rect x="2" y="9" width="4" height="12"/>
+      <circle cx="4" cy="4" r="2"/>
+    </svg>
+
+    <b style="color:#ffffff;">LinkedIn</b>
+  </a>
+
+  <!-- Twitter / X -->
+  <a href="https://x.com/@uveshah" target="_blank"
+     style="display:flex; align-items:center; gap:6px; color:#ffffff; text-decoration:none;">
+
+    <!-- X Icon (Black/White style) -->
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#ffffff">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+
+    <b style="color:#ffffff;">Twitter/X</b>
+  </a>
+
+  <!-- Last Updated -->
+  <strong style="color:rgba(255,255,255,0.38);" id="footer-last-updated"></strong>
+
+</div>
+    </div>
+
+  </div>
+</div>
+
+
 
 </footer>
 
@@ -899,6 +1234,33 @@
         onkeydown="if(event.key==='Enter') adminPanelLogin()" style="margin-bottom:10px;">
       <div class="form-error" id="admin-panel-error">❌ Incorrect password.</div>
       <button class="btn-primary" style="width:100%;" onclick="adminPanelLogin()">🔐 Login</button>
+      <div style="text-align:center; margin-top:10px;">
+        <a href="#" onclick="showForgotPanel(); return false;" style="font-size:12px; color:var(--text-muted);">🔑 Forgot Password?</a>
+      </div>
+    </div>
+
+    <!-- FORGOT PASSWORD / RESET PANEL -->
+    <div id="admin-forgot-panel" style="display:none; padding:1rem 1.1rem;">
+      <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px;">🔑 Reset Password</div>
+      <!-- Step 1: Recovery Key -->
+      <div id="forgot-step1">
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Enter your <b>Recovery Key</b> to verify identity:</div>
+        <input type="password" class="form-control" id="recovery-key-input" placeholder="Recovery Key"
+          onkeydown="if(event.key==='Enter') verifyRecoveryKey()" style="margin-bottom:8px;">
+        <div class="form-error" id="recovery-key-error">❌ Incorrect recovery key.</div>
+        <button class="btn-primary" style="width:100%;" onclick="verifyRecoveryKey()">✅ Verify</button>
+      </div>
+      <!-- Step 2: Set New Password -->
+      <div id="forgot-step2" style="display:none;">
+        <div style="font-size:12px; color:#276136; margin-bottom:8px; background:#e6f4ec; padding:7px 10px; border-radius:4px;">✅ Identity verified! Set your new password:</div>
+        <input type="password" class="form-control" id="new-pass-input" placeholder="New Password" style="margin-bottom:8px;">
+        <input type="password" class="form-control" id="new-pass-confirm" placeholder="Confirm New Password" style="margin-bottom:8px;">
+        <div class="form-error" id="new-pass-error">❌ Passwords do not match.</div>
+        <button class="btn-primary" style="width:100%;" onclick="setNewPassword()">💾 Save New Password</button>
+      </div>
+      <div style="text-align:center; margin-top:10px;">
+        <a href="#" onclick="hideForgotPanel(); return false;" style="font-size:12px; color:var(--text-muted);">← Back to Login</a>
+      </div>
     </div>
   </div>
 
@@ -916,6 +1278,7 @@
       <div class="admin-panel-section-title">📁 Media & Posts</div>
       <button class="admin-panel-btn" onclick="onAddAchievement(); toggleAdminPanel()">🏆 Add Achievement Photo</button>
       <button class="admin-panel-btn" onclick="onWriteBlog(); toggleAdminPanel()">✍ Write Blog Post</button>
+      <button class="admin-panel-btn" onclick="onUploadCV(); toggleAdminPanel()">📄 Upload / Update CV</button>
       <button class="admin-panel-btn" onclick="onManageNotifs(); toggleAdminPanel()">🔔 Manage Notifications</button>
     </div>
     <div class="admin-panel-section">
@@ -963,7 +1326,7 @@
     <div class="notif-auto-header">
       <div>
         <h3>🔔 Latest Updates</h3>
-        <span>from Uvesh Ahmad Profile</span>
+        <span>from Uvesh Ahmad's Profile</span>
       </div>
       <button class="notif-popup-close" onclick="dismissAutoPopup()" style="font-size:22px;">✕</button>
     </div>
@@ -1261,7 +1624,7 @@
       <button class="btn-secondary" onclick="closeModal('modal-password')">Cancel</button>
       <button class="btn-primary" onclick="verifyPassword()">Login</button>
     </div>
-    <p style="font-size:11.5px; color:var(--text-light); margin-top:12px; text-align:center;">Default password: <code>*******</code></p>
+    <p style="font-size:11.5px; color:var(--text-light); margin-top:12px; text-align:center;">Default password: <code>uvesh@admin</code></p>
   </div>
 </div>
 
@@ -1269,56 +1632,38 @@
      MODAL: ADD ACHIEVEMENT
 ══════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-add-achv">
-  <div class="modal-box">
+  <div class="modal-box wide" style="max-width:720px;">
     <div class="modal-header">
-      <h3>🏆 Add Achievement</h3>
+      <h3>🏆 Add Achievements</h3>
       <button class="modal-close" onclick="closeModal('modal-add-achv')">✕</button>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Photo / Image Upload</label>
-      <div class="img-upload-zone" onclick="document.getElementById('achv-file-input').click()">
-        <input type="file" id="achv-file-input" accept="image/*" onchange="previewAchvImage(event)">
-        <div id="achv-upload-hint">
-          <div style="font-size:2rem; margin-bottom:6px;">📸</div>
-          <div style="font-size:13px; color:var(--text-muted);">Click to upload or drag & drop</div>
-          <div style="font-size:11.5px; color:var(--text-light); margin-top:3px;">JPG, PNG, WEBP — Max 5MB</div>
+    <!-- DROP ZONE -->
+    <div class="multi-drop-zone" id="achv-drop-zone"
+      onclick="document.getElementById('achv-file-input').click()"
+      ondragover="event.preventDefault(); this.classList.add('drag-over')"
+      ondragleave="this.classList.remove('drag-over')"
+      ondrop="handleAchvDrop(event)">
+      <input type="file" id="achv-file-input" accept="image/*" multiple onchange="loadAchvFiles(event)" style="display:none">
+      <div class="multi-drop-icon">📸</div>
+      <div style="font-size:14px; font-weight:600; color:var(--text);">Click or Drag & Drop Images</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Select multiple photos at once — JPG, PNG, WEBP · Max 5MB each</div>
+    </div>
+
+    <!-- PREVIEW CARDS LIST -->
+    <div id="achv-batch-list" style="display:none; margin-top:1rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div style="font-size:12.5px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">
+          <span id="achv-batch-count">0</span> photo(s) selected — fill details:
         </div>
-        <img id="achv-img-preview" class="img-preview-box" alt="Preview">
+        <button class="achv-addmore-btn" onclick="document.getElementById('achv-file-input').click()">📸 + Add More Photos</button>
       </div>
+      <div id="achv-batch-cards" style="display:flex; flex-direction:column; gap:12px; max-height:400px; overflow-y:auto; padding-right:4px;"></div>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Title *</label>
-      <input type="text" class="form-control" id="achv-title-input" placeholder="e.g. AWS Machine Learning Scholarship">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Category</label>
-      <select class="form-control" id="achv-cat-input">
-        <option value="Certificate">📜 Certificate</option>
-        <option value="Award">🏅 Award</option>
-        <option value="Conference">🎤 Conference / Event</option>
-        <option value="Publication">📄 Publication</option>
-        <option value="Recognition">⭐ Recognition</option>
-        <option value="Other">🔖 Other</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Description</label>
-      <textarea class="form-control" id="achv-desc-input" style="min-height:80px;"
-        placeholder="Short description about this achievement..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Date (Month/Year)</label>
-      <input type="month" class="form-control" id="achv-date-input">
-    </div>
-
-    <div class="form-actions">
+    <div class="form-actions" style="margin-top:1rem;">
       <button class="btn-secondary" onclick="closeModal('modal-add-achv')">Cancel</button>
-      <button class="btn-primary" onclick="saveAchievement()">✓ Publish</button>
+      <button class="btn-primary" id="achv-publish-btn" onclick="saveAchievementBatch()" style="display:none;">✓ Publish All</button>
     </div>
   </div>
 </div>
@@ -1327,7 +1672,7 @@
      MODAL: WRITE BLOG POST
 ══════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-write-blog">
-  <div class="modal-box wide">
+  <div class="modal-box wide" style="max-width:780px;">
     <div class="modal-header">
       <h3>✍ Write New Post</h3>
       <button class="modal-close" onclick="closeModal('modal-write-blog')">✕</button>
@@ -1354,22 +1699,54 @@
       </div>
     </div>
 
+    <!-- COVER IMAGE -->
     <div class="form-group">
       <label class="form-label">Cover Image (optional)</label>
-      <div class="img-upload-zone" onclick="document.getElementById('blog-cover-input').click()" style="padding:1rem;">
-        <input type="file" id="blog-cover-input" accept="image/*" onchange="previewBlogCover(event)">
-        <div id="blog-cover-hint" style="font-size:13px; color:var(--text-muted);">📷 Add a cover image (optional)</div>
-        <img id="blog-cover-preview" class="img-preview-box" alt="Cover">
+      <div class="multi-drop-zone" style="padding:10px 14px; flex-direction:row; justify-content:flex-start; gap:12px; min-height:unset;"
+        onclick="document.getElementById('blog-cover-input').click()"
+        ondragover="event.preventDefault(); this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="handleBlogCoverDrop(event)">
+        <input type="file" id="blog-cover-input" accept="image/*" onchange="previewBlogCover(event)" style="display:none">
+        <img id="blog-cover-preview" style="display:none; height:54px; width:96px; object-fit:cover; border-radius:4px; border:1px solid var(--border);" alt="Cover">
+        <div id="blog-cover-hint" style="font-size:13px; color:var(--text-muted);">📷 Click or drag to add cover image</div>
+        <button id="blog-cover-clear" onclick="event.stopPropagation(); clearBlogCover()" style="display:none; margin-left:auto; font-size:11.5px; background:none; border:1px solid #ddd; border-radius:3px; padding:3px 8px; cursor:pointer; color:var(--text-muted);">✕ Remove</button>
       </div>
     </div>
 
+    <!-- CONTENT EDITOR TOOLBAR -->
     <div class="form-group">
-      <label class="form-label">Content *</label>
-      <textarea class="form-control" id="blog-content-input" style="min-height:280px; font-size:14.5px;"
-        placeholder="Write your article, research summary, paper review, or story here...
+      <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+        <span>Content *</span>
+        <span style="font-size:11px; color:var(--text-muted);">Supports ## Heading, **bold**, *italic*, - list, > quote</span>
+      </label>
+      <!-- Toolbar -->
+      <div class="blog-toolbar">
+        <button class="blog-tb-btn" onclick="blogInsert('## ','','Heading')" title="Heading">H</button>
+        <button class="blog-tb-btn" onclick="blogInsert('### ','','Sub-heading')" title="Sub-heading" style="font-size:11px;">H3</button>
+        <button class="blog-tb-btn" onclick="blogWrap('**','**','bold text')" title="Bold"><b>B</b></button>
+        <button class="blog-tb-btn" onclick="blogWrap('*','*','italic text')" title="Italic"><em>I</em></button>
+        <button class="blog-tb-btn" onclick="blogInsert('> ','','Quote text')" title="Blockquote">❝</button>
+        <button class="blog-tb-btn" onclick="blogInsert('- ','','List item')" title="Bullet list">• —</button>
+        <button class="blog-tb-btn" onclick="blogWrap('`','`','code')" title="Code"><code style="font-size:11px;">{ }</code></button>
+        <div class="blog-tb-sep"></div>
+        <button class="blog-tb-btn" onclick="document.getElementById('blog-inline-img-input').click()" title="Insert inline image">🖼 Insert Image</button>
+        <input type="file" id="blog-inline-img-input" accept="image/*" multiple style="display:none" onchange="insertBlogImages(event)">
+      </div>
+      <!-- Inline image queue -->
+      <div id="blog-inline-img-queue" style="display:none; margin-bottom:6px; padding:8px; background:var(--jmi-light); border:1px solid var(--border); border-radius:4px;">
+        <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:5px;">📸 Images ready to insert — click to insert at cursor position:</div>
+        <div id="blog-inline-img-thumbs" style="display:flex; flex-wrap:wrap; gap:7px;"></div>
+      </div>
+      <textarea class="form-control" id="blog-content-input" style="min-height:300px; font-size:14px; font-family:'Courier New',monospace; line-height:1.7;"
+        placeholder="Write your article here...
 
-Each blank line creates a new paragraph.
-No length limit — write freely."></textarea>
+## Introduction
+Start with a compelling opening...
+
+Each blank line = new paragraph.
+Use ## for headings, **bold**, *italic*, > quote, - bullet list.
+Use the toolbar above to insert images inline."></textarea>
     </div>
 
     <div class="form-actions">
@@ -1383,15 +1760,32 @@ No length limit — write freely."></textarea>
      MODAL: READ FULL POST
 ══════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-read-post">
-  <div class="modal-box wide" style="max-width:720px;">
-    <div class="modal-header">
-      <h3 id="read-title" style="font-size:16px; max-width:90%; line-height:1.4;"></h3>
-      <button class="modal-close" onclick="closeModal('modal-read-post')">✕</button>
+  <div class="modal-box wide" style="max-width:780px; padding:1.8rem; max-height:92vh; overflow-y:auto;" id="read-post-scroll-box">
+    <!-- Reading progress bar -->
+    <div class="read-progress-bar" id="read-progress-bar"></div>
+
+    <!-- Header -->
+    <div class="modal-header" style="align-items:flex-start; gap:12px;">
+      <h3 id="read-title" style="font-size:20px; font-weight:700; line-height:1.4; color:var(--text); max-width:92%; margin:0; font-family:'Open Sans',sans-serif;"></h3>
+      <button class="modal-close" onclick="closeModal('modal-read-post')" style="flex-shrink:0; margin-top:2px;">✕</button>
     </div>
-    <div style="display:flex; gap:10px; align-items:center; margin-bottom:1rem; flex-wrap:wrap;" id="read-meta"></div>
+
+    <!-- Meta: category, date, read time -->
+    <div style="display:flex; gap:8px; align-items:center; margin:12px 0 1.2rem; flex-wrap:wrap;" id="read-meta"></div>
+
+    <!-- Cover image -->
     <img id="read-cover" class="post-cover-img" alt="Cover">
+
+    <!-- Body -->
     <div class="post-body-text" id="read-body"></div>
+
+    <!-- Tags -->
     <div class="post-tags-list" id="read-tags"></div>
+
+    <!-- Back button -->
+    <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border); text-align:center;">
+      <button class="btn-secondary" onclick="closeModal('modal-read-post')" style="font-size:13px;">← Back to Blog</button>
+    </div>
   </div>
 </div>
 
@@ -1400,11 +1794,68 @@ No length limit — write freely."></textarea>
 ══════════════════════════════════════ -->
 <script>
 // ─── CONFIG ───────────────────────────────
-const ADMIN_PASSWORD = 'Uvesh@sidd11!!'; // Change this to your own password
+const ADMIN_PASS_HASH = '942275f0d41f082e537eac257ee5697967a70fc6d2b0c455474bb55e98ddd320'; // SHA-256 of default password
+const RECOVERY_KEY_HASH = '7766a6b28b4b89320227866379937ea4e99500dca4467ed1f61e8a80a6e01111'; // SHA-256 of recovery key
 let isAdmin = false;
 let pendingAction = null;
 let achvImgData = null;
 let blogCoverData = null;
+
+async function checkPassword(input) {
+  const enc = new TextEncoder().encode(input);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// Get active password hash — custom one from localStorage, or default from code
+function getActivePassHash() {
+  return localStorage.getItem('uvesh_pass_hash') || ADMIN_PASS_HASH;
+}
+
+// ── Forgot Password UI ─────────────────────
+function showForgotPanel() {
+  document.getElementById('admin-panel-login-form').style.display = 'none';
+  document.getElementById('admin-forgot-panel').style.display = 'block';
+  document.getElementById('forgot-step1').style.display = 'block';
+  document.getElementById('forgot-step2').style.display = 'none';
+  document.getElementById('recovery-key-error').classList.remove('show');
+  document.getElementById('new-pass-error').classList.remove('show');
+  document.getElementById('recovery-key-input').value = '';
+  document.getElementById('new-pass-input').value = '';
+  document.getElementById('new-pass-confirm').value = '';
+}
+function hideForgotPanel() {
+  document.getElementById('admin-forgot-panel').style.display = 'none';
+  document.getElementById('admin-panel-login-form').style.display = 'block';
+}
+
+async function verifyRecoveryKey() {
+  const val = document.getElementById('recovery-key-input').value.trim();
+  const hash = await checkPassword(val);
+  if (hash === RECOVERY_KEY_HASH) {
+    document.getElementById('forgot-step1').style.display = 'none';
+    document.getElementById('forgot-step2').style.display = 'block';
+    document.getElementById('new-pass-input').focus();
+  } else {
+    document.getElementById('recovery-key-error').classList.add('show');
+  }
+}
+
+async function setNewPassword() {
+  const p1 = document.getElementById('new-pass-input').value;
+  const p2 = document.getElementById('new-pass-confirm').value;
+  const errEl = document.getElementById('new-pass-error');
+  if (!p1 || p1.length < 6) { errEl.innerHTML = '❌ Password must be at least 6 characters.'; errEl.classList.add('show'); return; }
+  if (p1 !== p2) { errEl.innerHTML = '❌ Passwords do not match.'; errEl.classList.add('show'); return; }
+  const newHash = await checkPassword(p1);
+  localStorage.setItem('uvesh_pass_hash', newHash);
+  hideForgotPanel();
+  document.getElementById('admin-panel-pass').value = '';
+  document.getElementById('admin-panel-error').classList.remove('show');
+  document.getElementById('admin-panel-status').innerHTML = '✅ Password updated! Please login.';
+  setTimeout(() => { document.getElementById('admin-panel-status').textContent = 'Not logged in'; }, 3000);
+  alert('✅ Password changed successfully! Please login with your new password.');
+}
 
 // ─── ADMIN AUTH ────────────────────────────
 function openAdminLogin(action) {
@@ -1414,9 +1865,10 @@ function openAdminLogin(action) {
   openModal('modal-password');
 }
 
-function verifyPassword() {
+async function verifyPassword() {
   const val = document.getElementById('admin-pass').value.trim();
-  if (val === ADMIN_PASSWORD) {
+  const hash = await checkPassword(val);
+  if (hash === getActivePassHash()) {
     isAdmin = true;
     closeModal('modal-password');
     updateAdminUI();
@@ -1454,6 +1906,8 @@ function updateAdminUI() {
   // Blog write button
   const blogWriteBtn = document.getElementById('blog-write-btn');
   if (blogWriteBtn) blogWriteBtn.style.display = isAdmin ? 'inline-block' : 'none';
+  // CV upload button
+  renderCV();
   // Admin panel UI update
   const panelControls = document.getElementById('admin-panel-controls');
   const panelLogin    = document.getElementById('admin-panel-login');
@@ -1485,7 +1939,7 @@ function toggleAdminPanel() {
 // ══════════════════════════════════════════════════════════════
 // IP LOCK SYSTEM
 // ══════════════════════════════════════════════════════════════
-const MAX_ATTEMPTS = 2; // Lock after 2 wrong attempts
+const MAX_ATTEMPTS = 3; // Lock after 3 wrong attempts
 let currentUserIP = null;
 
 // Fetch real IP on page load
@@ -1558,7 +2012,7 @@ function showIPBlocked(ip) {
   document.getElementById('admin-panel-status').textContent = '🚫 IP Blocked';
 }
 
-function adminPanelLogin() {
+async function adminPanelLogin() {
   // Check IP lock first
   if (currentUserIP && isIPLocked(currentUserIP)) {
     showIPBlocked(currentUserIP);
@@ -1566,7 +2020,8 @@ function adminPanelLogin() {
   }
 
   const val = document.getElementById('admin-panel-pass').value.trim();
-  if (val === ADMIN_PASSWORD) {
+  const hash = await checkPassword(val);
+  if (hash === getActivePassHash()) {
     // Correct — clear attempts, login
     if (currentUserIP) clearAttempts(currentUserIP);
     isAdmin = true;
@@ -1620,25 +2075,28 @@ document.addEventListener('click', function(e) {
 
 function onAddAchievement() {
   if (!isAdmin) { openAdminLogin('add-achv'); return; }
-  achvImgData = null;
+  achvBatch = [];
   document.getElementById('achv-file-input').value = '';
-  document.getElementById('achv-img-preview').style.display = 'none';
-  document.getElementById('achv-upload-hint').style.display = 'block';
-  document.getElementById('achv-title-input').value = '';
-  document.getElementById('achv-desc-input').value = '';
-  document.getElementById('achv-date-input').value = '';
+  document.getElementById('achv-batch-list').style.display = 'none';
+  document.getElementById('achv-batch-cards').innerHTML = '';
+  document.getElementById('achv-publish-btn').style.display = 'none';
   openModal('modal-add-achv');
 }
 
 function onWriteBlog() {
   if (!isAdmin) { openAdminLogin('write-blog'); return; }
   blogCoverData = null;
+  blogInlineImgs = [];
   document.getElementById('blog-cover-input').value = '';
   document.getElementById('blog-cover-preview').style.display = 'none';
   document.getElementById('blog-cover-hint').style.display = 'block';
+  document.getElementById('blog-cover-clear').style.display = 'none';
   document.getElementById('blog-title-input').value = '';
   document.getElementById('blog-content-input').value = '';
   document.getElementById('blog-tags-input').value = '';
+  document.getElementById('blog-inline-img-input').value = '';
+  document.getElementById('blog-inline-img-queue').style.display = 'none';
+  document.getElementById('blog-inline-img-thumbs').innerHTML = '';
   openModal('modal-write-blog');
 }
 
@@ -1653,82 +2111,146 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   });
 });
 
-// ─── IMAGE PREVIEW ─────────────────────────
-function previewAchvImage(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB.'); return; }
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    achvImgData = ev.target.result;
-    const img = document.getElementById('achv-img-preview');
-    img.src = achvImgData;
-    img.style.display = 'block';
-    document.getElementById('achv-upload-hint').style.display = 'none';
-  };
-  reader.readAsDataURL(file);
+// ══ ACHIEVEMENTS — BATCH UPLOAD ══════════════
+let achvBatch = [];
+
+function handleAchvDrop(e) {
+  e.preventDefault();
+  document.getElementById('achv-drop-zone').classList.remove('drag-over');
+  processAchvFiles(Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')));
 }
+function loadAchvFiles(e) { processAchvFiles(Array.from(e.target.files)); }
+function processAchvFiles(files) {
+  if (!files.length) return;
+  let loaded = 0;
+  files.forEach(file => {
+    if (file.size > 5*1024*1024) { alert(file.name+' over 5MB — skipped.'); loaded++; if(loaded===files.length) renderAchvBatch(); return; }
+    const reader = new FileReader();
+    const batchId = Date.now() + Math.random();
+    reader.onload = function(ev) {
+      achvBatch.push({ batchId, imgData: ev.target.result, title: file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '), category: 'Certificate', desc: '', date: '' });
+      loaded++; if (loaded===files.length) renderAchvBatch();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function renderAchvBatch() {
+  const container = document.getElementById('achv-batch-cards');
+  document.getElementById('achv-batch-list').style.display = 'block';
+  document.getElementById('achv-batch-count').textContent = achvBatch.length;
+  document.getElementById('achv-publish-btn').style.display = achvBatch.length ? 'inline-block' : 'none';
+  container.innerHTML = achvBatch.map((item, idx) => `
+    <div class="achv-batch-card">
+      <div>${item.imgData ? `<img class="achv-batch-thumb" src="${item.imgData}">` : `<div class="achv-batch-thumb-placeholder">📄</div>`}</div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
+          <span style="font-size:12px;font-weight:700;color:var(--text-muted);">Photo ${idx+1}</span>
+          <button class="achv-batch-remove" onclick="removeAchvBatch(${idx})">✕</button>
+        </div>
+        <input type="text" class="form-control" style="margin-bottom:6px;font-size:13px;" placeholder="Title *" value="${item.title}" oninput="achvBatch[${idx}].title=this.value">
+        <select class="form-control" style="margin-bottom:6px;font-size:13px;" onchange="achvBatch[${idx}].category=this.value">
+          ${['Certificate','Award','Conference','Publication','Recognition','Other'].map(c=>`<option value="${c}" ${item.category===c?'selected':''}>${c}</option>`).join('')}
+        </select>
+        <input type="text" class="form-control" style="margin-bottom:6px;font-size:13px;" placeholder="Description (optional)" value="${item.desc}" oninput="achvBatch[${idx}].desc=this.value">
+        <input type="month" class="form-control" style="font-size:13px;" value="${item.date}" onchange="achvBatch[${idx}].date=this.value">
+      </div>
+    </div>`).join('');
+}
+function removeAchvBatch(idx) { achvBatch.splice(idx,1); renderAchvBatch(); }
+function saveAchievementBatch() {
+  if (achvBatch.some(a => !a.title.trim())) { alert('Fill in Title for all photos.'); return; }
+  const list = getAchievements();
+  achvBatch.forEach(item => list.push({ id: Date.now()+Math.random(), title: item.title.trim(), category: item.category, desc: item.desc.trim(), date: item.date, img: item.imgData||null }));
+  saveAchievements(list); achvBatch = [];
+  closeModal('modal-add-achv'); renderAchievements();
+}
+function deleteAchievement(id) {
+  if (!confirm('Delete this achievement?')) return;
+  saveAchievements(getAchievements().filter(a => a.id !== id));
+  renderAchievements();
+}
+function getAchievements() { try { return JSON.parse(localStorage.getItem('uvesh_achievements')||'[]'); } catch { return []; } }
+function saveAchievements(list) { localStorage.setItem('uvesh_achievements', JSON.stringify(list)); }
+
+// ══ BLOG — COVER + INLINE IMAGES ══════════════
+let blogInlineImgs = [];
 
 function previewBlogCover(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = function(ev) {
     blogCoverData = ev.target.result;
     const img = document.getElementById('blog-cover-preview');
-    img.src = blogCoverData;
-    img.style.display = 'block';
+    img.src = blogCoverData; img.style.display = 'block';
     document.getElementById('blog-cover-hint').style.display = 'none';
+    document.getElementById('blog-cover-clear').style.display = 'inline-block';
   };
   reader.readAsDataURL(file);
 }
-
-// ─── SAVE ACHIEVEMENT ──────────────────────
-function saveAchievement() {
-  const title = document.getElementById('achv-title-input').value.trim();
-  if (!title) { alert('Title is required!'); return; }
-
-  const achievement = {
-    id: Date.now(),
-    title: title,
-    category: document.getElementById('achv-cat-input').value,
-    desc: document.getElementById('achv-desc-input').value.trim(),
-    date: document.getElementById('achv-date-input').value,
-    img: achvImgData || null
-  };
-
-  const list = getAchievements();
-  list.push(achievement);
-  saveAchievements(list);
-  closeModal('modal-add-achv');
-  renderAchievements();
+function handleBlogCoverDrop(e) {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) previewBlogCover({target:{files:[file]}});
 }
-
-function deleteAchievement(id) {
-  if (!confirm('Delete this achievement?')) return;
-  const list = getAchievements().filter(a => a.id !== id);
-  saveAchievements(list);
-  renderAchievements();
+function clearBlogCover() {
+  blogCoverData = null;
+  document.getElementById('blog-cover-input').value = '';
+  document.getElementById('blog-cover-preview').style.display = 'none';
+  document.getElementById('blog-cover-hint').style.display = 'block';
+  document.getElementById('blog-cover-clear').style.display = 'none';
 }
-
-function getAchievements() {
-  try { return JSON.parse(localStorage.getItem('uvesh_achievements') || '[]'); } catch { return []; }
+function insertBlogImages(e) {
+  Array.from(e.target.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const imgId = 'img_'+Date.now()+'_'+Math.floor(Math.random()*1000);
+      blogInlineImgs.push({imgId, data: ev.target.result, name: file.name});
+      renderInlineImgQueue();
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
 }
-function saveAchievements(list) {
-  localStorage.setItem('uvesh_achievements', JSON.stringify(list));
+function renderInlineImgQueue() {
+  const queue = document.getElementById('blog-inline-img-queue');
+  const thumbs = document.getElementById('blog-inline-img-thumbs');
+  queue.style.display = blogInlineImgs.length ? 'block' : 'none';
+  thumbs.innerHTML = blogInlineImgs.map((img,i) => `
+    <div style="position:relative;cursor:pointer;" title="Click to insert at cursor">
+      <img src="${img.data}" onclick="insertImgAtCursor('${img.imgId}')" style="width:62px;height:50px;object-fit:cover;border-radius:4px;border:2px solid #b8d0ed;display:block;">
+      <button onclick="removeInlineImg(${i})" style="position:absolute;top:-5px;right:-5px;background:var(--jmi-red);color:#fff;border:none;border-radius:50%;width:16px;height:16px;font-size:10px;cursor:pointer;line-height:1;padding:0;">✕</button>
+      <div style="font-size:9px;text-align:center;color:var(--text-muted);max-width:62px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">${img.name}</div>
+    </div>`).join('');
 }
+function insertImgAtCursor(imgId) {
+  const ta = document.getElementById('blog-content-input');
+  const pos = ta.selectionStart;
+  const marker = '\n![image]('+imgId+')\n';
+  ta.value = ta.value.slice(0,pos)+marker+ta.value.slice(pos);
+  ta.focus(); ta.selectionStart = ta.selectionEnd = pos+marker.length;
+  ta.style.borderColor='#276136'; setTimeout(()=>ta.style.borderColor='',800);
+}
+function removeInlineImg(i) { blogInlineImgs.splice(i,1); renderInlineImgQueue(); }
+function blogInsert(prefix,suffix,placeholder) {
+  const ta=document.getElementById('blog-content-input');
+  const s=ta.selectionStart,e=ta.selectionEnd;
+  const sel=ta.value.slice(s,e)||placeholder;
+  ta.value=ta.value.slice(0,s)+prefix+sel+suffix+ta.value.slice(e);
+  ta.focus(); ta.selectionStart=s+prefix.length; ta.selectionEnd=s+prefix.length+sel.length;
+}
+function blogWrap(b,a,p) { blogInsert(b,a,p); }
 
 function renderAchievements() {
   const grid = document.getElementById('achv-grid');
   const list = getAchievements();
   if (!list.length) {
-    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🏆</div><p><b>No achievements published yet.</b><br>Login as admin and click <b>"+ Add Photo"</b> to add your first one.</p></div>`;
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🏆</div><p><b>No achievements published yet.</b><br>Login as admin and click <b>"🏆 Add Achievement Photo"</b>.</p></div>`;
     return;
   }
-  grid.innerHTML = list.map(a => {
+  grid.innerHTML = list.map((a, idx) => {
     const imgHTML = a.img
-      ? `<img class="achv-img" src="${a.img}" alt="${a.title}">`
-      : `<div class="achv-img-placeholder">🏆</div>`;
+      ? `<img class="achv-img" src="${a.img}" alt="${a.title}" onclick="openLightbox('${a.id}')">`
+      : `<div class="achv-img-placeholder" style="cursor:default;">🏆</div>`;
     const dateStr = a.date ? new Date(a.date + '-01').toLocaleDateString('en-IN', {month:'short', year:'numeric'}) : '';
     return `
       <div class="achv-card">
@@ -1739,9 +2261,31 @@ function renderAchievements() {
           <div class="achv-title">${a.title}</div>
           ${a.desc ? `<div class="achv-desc">${a.desc}</div>` : ''}
           ${dateStr ? `<div class="achv-date">📅 ${dateStr}</div>` : ''}
+          ${isAdmin ? `<div class="item-admin-btns" style="display:flex; margin-top:6px;">
+            <button class="item-move-btn" onclick="moveAchv(${a.id},'up')" ${idx===0?'disabled':''}>▲</button>
+            <button class="item-move-btn" onclick="moveAchv(${a.id},'down')" ${idx===list.length-1?'disabled':''}>▼</button>
+          </div>` : ''}
         </div>
       </div>`;
   }).join('');
+}
+function moveAchv(id, dir) { const l = moveItem(getAchievements(), id, dir); saveAchievements(l); renderAchievements(); }
+
+// ── Achievement Lightbox ────────────────────
+function openLightbox(id) {
+  const a = getAchievements().find(x => String(x.id) === String(id));
+  if (!a || !a.img) return;
+  const lb = document.createElement('div');
+  lb.className = 'achv-lightbox';
+  lb.innerHTML = `
+    <button class="achv-lightbox-close" onclick="this.parentElement.remove()">✕</button>
+    <img src="${a.img}" alt="${a.title}" onclick="event.stopPropagation()">
+    <div class="achv-lightbox-caption">${a.title}${a.date ? ' · ' + new Date(a.date+'-01').toLocaleDateString('en-IN',{month:'short',year:'numeric'}) : ''}</div>`;
+  lb.onclick = () => lb.remove();
+  document.body.appendChild(lb);
+  // Close on Escape
+  const escFn = e => { if (e.key === 'Escape') { lb.remove(); document.removeEventListener('keydown', escFn); } };
+  document.addEventListener('keydown', escFn);
 }
 
 // ─── SAVE BLOG POST ────────────────────────
@@ -1750,19 +2294,17 @@ function saveBlogPost() {
   const content = document.getElementById('blog-content-input').value.trim();
   if (!title) { alert('Title is required!'); return; }
   if (!content) { alert('Content is required!'); return; }
-
+  const imgMap = {};
+  blogInlineImgs.forEach(img => { imgMap[img.imgId] = img.data; });
   const post = {
-    id: Date.now(),
-    title: title,
+    id: Date.now(), title,
     category: document.getElementById('blog-cat-input').value,
-    content: content,
-    tags: document.getElementById('blog-tags-input').value.trim(),
-    cover: blogCoverData || null,
+    content, tags: document.getElementById('blog-tags-input').value.trim(),
+    cover: blogCoverData || null, imgMap,
     date: new Date().toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'})
   };
-
   const list = getBlogPosts();
-  list.unshift(post); // Newest post appears first
+  list.unshift(post);
   saveBlogPosts(list);
   closeModal('modal-write-blog');
   renderBlog();
@@ -1793,13 +2335,18 @@ function renderBlog() {
     container.innerHTML = `<div class="empty-state" style="grid-column:unset;"><div class="empty-icon">📝</div><p><b>No posts yet.</b><br>Login as admin and click <b>"✍ Write Post"</b> to publish your first post.</p></div>`;
     return;
   }
-  container.innerHTML = list.map(p => {
+  container.innerHTML = list.map((p, idx) => {
     const rawExcerpt = p.content.replace(/\n+/g, ' ').trim();
     const excerpt = rawExcerpt.length > 220 ? rawExcerpt.substring(0, 220) + '…' : rawExcerpt;
     const coverHTML = p.cover ? `<img class="blog-cover-thumb" src="${p.cover}" alt="cover">` : '';
     return `
       <div class="blog-card" onclick="readPost(${p.id})">
-        ${isAdmin ? `<button class="blog-delete-btn visible" onclick="event.stopPropagation(); deleteBlogPost(${p.id})">✕ Delete</button>` : ''}
+        ${isAdmin ? `
+          <div style="position:absolute;top:10px;right:10px;display:flex;gap:4px;z-index:2;">
+            <button class="item-move-btn" onclick="event.stopPropagation();moveBlog(${p.id},'up')" ${idx===0?'disabled':''} title="Move up">▲</button>
+            <button class="item-move-btn" onclick="event.stopPropagation();moveBlog(${p.id},'down')" ${idx===list.length-1?'disabled':''} title="Move down">▼</button>
+            <button class="blog-delete-btn visible" style="position:static;" onclick="event.stopPropagation(); deleteBlogPost(${p.id})">✕ Delete</button>
+          </div>` : ''}
         ${coverHTML}
         <div class="blog-meta">
           <span class="blog-cat-tag ${catCssMap[p.category] || 'cat-article'}">${catLabels[p.category] || p.category}</span>
@@ -1811,26 +2358,109 @@ function renderBlog() {
       </div>`;
   }).join('');
 }
+function moveBlog(id, dir) { const l = moveItem(getBlogPosts(), id, dir); saveBlogPosts(l); renderBlog(); }
+
+function formatBlogContent(raw, imgMap) {
+  imgMap = imgMap || {};
+  const lines = raw.split('\n');
+  let html = '';
+  let inList = false;
+
+  lines.forEach(line => {
+    // Inline image marker: ![image](imgId)
+    const imgMatch = line.match(/^!\[image\]\(([^)]+)\)$/);
+    if (imgMatch) {
+      if (inList) { html += '</ul>'; inList = false; }
+      const src = imgMap[imgMatch[1]];
+      if (src) html += `<div style="text-align:center;margin:1.2em 0;"><img src="${src}" class="blog-inline-img" onclick="openBlogImgLightbox(this)"></div>`;
+      return;
+    }
+    if (/^### (.+)/.test(line)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<h3>${line.replace(/^### /, '')}</h3>`;
+    } else if (/^## (.+)/.test(line)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<h2>${line.replace(/^## /, '')}</h2>`;
+    } else if (/^# (.+)/.test(line)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<h2>${line.replace(/^# /, '')}</h2>`;
+    } else if (/^> (.+)/.test(line)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<blockquote>${line.replace(/^> /, '')}</blockquote>`;
+    } else if (/^[-*] (.+)/.test(line)) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += `<li>${line.replace(/^[-*] /, '')}</li>`;
+    } else if (line.trim() === '') {
+      if (inList) { html += '</ul>'; inList = false; }
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      let l = line
+        .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/`(.+?)`/g, '<code>$1</code>');
+      html += `<p>${l}</p>`;
+    }
+  });
+  if (inList) html += '</ul>';
+  return html;
+}
+
+function openBlogImgLightbox(imgEl) {
+  const lb = document.createElement('div');
+  lb.className = 'achv-lightbox';
+  lb.innerHTML = `<button class="achv-lightbox-close" onclick="this.parentElement.remove()">✕</button><img src="${imgEl.src}" onclick="event.stopPropagation()">`;
+  lb.onclick = () => lb.remove();
+  document.body.appendChild(lb);
+  const escFn = e => { if (e.key === 'Escape') { lb.remove(); document.removeEventListener('keydown', escFn); } };
+  document.addEventListener('keydown', escFn);
+}
 
 function readPost(id) {
   const post = getBlogPosts().find(p => p.id === id);
   if (!post) return;
+
+  // Title
   document.getElementById('read-title').textContent = post.title;
-  // Render paragraphs: split by blank lines, wrap each in <p>
-  const paragraphs = post.content.split(/\n\n+/).map(para =>
-    `<p style="margin-bottom:1.1em; line-height:1.75;">${para.replace(/\n/g,'<br>')}</p>`
-  ).join('');
-  document.getElementById('read-body').innerHTML = paragraphs;
+
+  // Read time estimate
+  const wordCount = post.content.split(/\s+/).length;
+  const readMins = Math.max(1, Math.round(wordCount / 200));
+
+  // Meta
   const metaEl = document.getElementById('read-meta');
-  metaEl.innerHTML = `<span class="blog-cat-tag ${catCssMap[post.category] || 'cat-article'}">${catLabels[post.category] || post.category}</span><span class="blog-date-tag">📅 ${post.date}</span>`;
+  metaEl.innerHTML = `
+    <span class="blog-cat-tag ${catCssMap[post.category] || 'cat-article'}">${catLabels[post.category] || post.category}</span>
+    <span class="blog-date-tag">📅 ${post.date}</span>
+    <span style="font-size:12px; color:var(--text-muted); background:#f5f5f5; padding:2px 9px; border-radius:3px;">⏱ ${readMins} min read</span>
+    <span style="font-size:12px; color:var(--text-muted);">${wordCount} words</span>`;
+
+  // Cover
   const coverEl = document.getElementById('read-cover');
   if (post.cover) { coverEl.src = post.cover; coverEl.style.display = 'block'; }
   else { coverEl.style.display = 'none'; }
+
+  // Body — format with markdown-like support + inline images
+  document.getElementById('read-body').innerHTML = formatBlogContent(post.content, post.imgMap || {});
+
+  // Tags
   const tagsEl = document.getElementById('read-tags');
-  if (post.tags) {
-    tagsEl.innerHTML = post.tags.split(',').map(t => `<span class="post-tag">#${t.trim()}</span>`).join('');
-  } else { tagsEl.innerHTML = ''; }
+  tagsEl.innerHTML = post.tags
+    ? post.tags.split(',').map(t => `<span class="post-tag">#${t.trim()}</span>`).join('')
+    : '';
+
   openModal('modal-read-post');
+
+  // Progress bar on scroll
+  const scrollBox = document.getElementById('read-post-scroll-box');
+  const bar = document.getElementById('read-progress-bar');
+  if (scrollBox && bar) {
+    bar.style.width = '0%';
+    scrollBox.onscroll = function() {
+      const scrolled = scrollBox.scrollTop;
+      const total = scrollBox.scrollHeight - scrollBox.clientHeight;
+      bar.style.width = total > 0 ? (scrolled / total * 100) + '%' : '0%';
+    };
+  }
 }
 
 // ─── NOTIFICATIONS SYSTEM ──────────────────
@@ -2033,20 +2663,32 @@ const EDU_DEFAULT = [
   { id: 1, degree: 'Master of Computer Applications (MCA)', institution: 'Amity University, Noida, UP', grade: '⭐ QS Rank 951-1000 · CGPA: 8.80/10', year: '2024–2026', badge: 'Completed' },
   { id: 2, degree: 'Bachelor of Computer Applications (BCA)', institution: 'Lovely Professional University, Punjab', grade: '⭐ QS Rank 901-950 · CGPA: 7.2/10', year: '2021–2024', badge: '' },
   { id: 3, degree: 'Associate Degree / Diploma in Computer Engineering', institution: 'Jamia Millia Islamia University, New Delhi', grade: '⭐ QS Rank 761-770 · CGPA: 7.89/10', year: '2018–2021', badge: '' },
-  { id: 4, degree: 'ITI — Electrician, NCVT', institution: 'Shree Bala Ji Private ITI', grade: 'Percentage: 82.40%', year: '2016–2018', badge: '' }
+  { id: 4, degree: 'ITI — Electrician, NCVT', institution: 'Shree Bala Ji Private ITI', year: '2016–2018', badge: '' }
 ];
 function getEdu() { try { const d = localStorage.getItem('uvesh_edu'); return d ? JSON.parse(d) : JSON.parse(JSON.stringify(EDU_DEFAULT)); } catch { return JSON.parse(JSON.stringify(EDU_DEFAULT)); } }
 function saveEduData(list) { localStorage.setItem('uvesh_edu', JSON.stringify(list)); }
+// ── Shared reorder helper ──────────────────
+function moveItem(list, id, dir) {
+  const i = list.findIndex(x => x.id === id);
+  if (i < 0) return list;
+  const j = dir === 'up' ? i - 1 : i + 1;
+  if (j < 0 || j >= list.length) return list;
+  [list[i], list[j]] = [list[j], list[i]];
+  return list;
+}
+
 function renderEdu() {
   const list = getEdu(), el = document.getElementById('edu-list');
   if (!list.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">🎓</div><p><b>No education entries yet.</b><br>Login as admin and click <b>"+ Add Education"</b>.</p></div>'; return; }
-  el.innerHTML = list.map(e => `
+  el.innerHTML = list.map((e, idx) => `
     <div class="cred-item">
       <div>
         <div class="cred-title">${e.degree}${e.badge ? ` <span class="badge-current">${e.badge}</span>` : ''}</div>
         <div class="cred-sub">${e.institution}</div>
         ${e.grade ? `<div class="cred-sub">${e.grade}</div>` : ''}
         <div class="item-admin-btns" style="display:${isAdmin?'flex':'none'}">
+          <button class="item-move-btn" onclick="moveEdu(${e.id},'up')" ${idx===0?'disabled':''} title="Move up">▲</button>
+          <button class="item-move-btn" onclick="moveEdu(${e.id},'down')" ${idx===list.length-1?'disabled':''} title="Move down">▼</button>
           <button class="item-edit-btn" onclick="editEdu(${e.id})">✏ Edit</button>
           <button class="item-del-btn" onclick="delEdu(${e.id})">✕ Delete</button>
         </div>
@@ -2054,6 +2696,7 @@ function renderEdu() {
       <div class="cred-year">${e.year}</div>
     </div>`).join('');
 }
+function moveEdu(id, dir) { const l = moveItem(getEdu(), id, dir); saveEduData(l); renderEdu(); }
 function openEduModal(item) {
   document.getElementById('edu-modal-title').textContent = item ? '🎓 Edit Education' : '🎓 Add Education';
   document.getElementById('edu-edit-id').value = item ? item.id : '';
@@ -2084,7 +2727,7 @@ function delEdu(id) { if (!confirm('Delete this education entry?')) return; save
 // SECTION: EXPERIENCE
 // ══════════════════════════════════════════════════════════════
 const EXP_DEFAULT = [
-  { id: 1, title: 'Visiting Faculty / Part-Time — Python Programming', period: 'Feb 2026 – Present', isCurrent: true, org: 'Centre for Innovation & Entrepreneurship (CIE), Jamia Millia Islamia University', orgUrl: '', desc: 'Teaching Python Programming while mentoring students in innovation, entrepreneurship, and applied AI/ML education for real-world problem solving.', skills: 'Python, Data Analytics, Teaching, Mentoring' },
+  { id: 1, title: 'Visiting Faculty / Part-Time — Python Programming', period: 'Feb 2026 – Present', isCurrent: true, org: 'Centre for Innovation & Entrepreneurship (CIE), Jamia Millia Islamia University', orgUrl: '', desc: 'Teaching Python Programming while mentoring students in Innovation, Entrepreneurship, and applied AI/ML Education for Real-world problem solving.', skills: 'Python, Data Analytics, Teaching, Mentoring' },
   { id: 2, title: 'Teaching Assistant & Researcher', period: 'May 2025 – May 2026', isCurrent: false, org: 'Amity University, Noida — Under Dr. Rajbala Semon', orgUrl: 'https://amity.edu/faculty-detail.aspx?facultyID=2909', desc: 'Published "Optimized Tour Planning Advisor Using Regression Models" in IEEE Xplore. Conducting research on Real-Time Object Detection, Neuro-Symbolic AI, and Video Super-Resolution.', skills: 'ML, NLP, Deep Learning, Computer Vision' },
   { id: 3, title: 'Medical AI in Python — Research Program', period: 'Jun 2023 – Jul 2023', isCurrent: false, org: 'McMedHacks Lab, Canada (4-week fully funded program)', orgUrl: '', desc: 'Deep Learning for histopathology and image analysis; MRI and GAN-based medical imaging segmentation.', skills: 'Deep Learning, GAN, Medical Imaging' },
   { id: 4, title: 'Data Science Summer School', period: 'Jan 2023 – Feb 2023', isCurrent: false, org: 'Hertie School of Data Science Lab, Berlin (4-week program)', orgUrl: '', desc: 'R, Python, Statistics, Linear Algebra, and Generative AI through prompt crafting.', skills: 'Python, R, Statistics, Generative AI' },
@@ -2096,7 +2739,7 @@ function saveExpData(list) { localStorage.setItem('uvesh_exp', JSON.stringify(li
 function renderExp() {
   const list = getExp(), el = document.getElementById('exp-list');
   if (!list.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">💼</div><p><b>No experience entries yet.</b></p></div>'; return; }
-  el.innerHTML = list.map(e => {
+  el.innerHTML = list.map((e, idx) => {
     const orgHTML = e.orgUrl ? `<a href="${e.orgUrl}" target="_blank">${e.org}</a>` : e.org;
     const skillsHTML = e.skills ? e.skills.split(',').map(s => `<span class="exp-skill">${s.trim()}</span>`).join('') : '';
     return `
@@ -2109,12 +2752,15 @@ function renderExp() {
         ${e.desc ? `<div class="exp-desc">${e.desc}</div>` : ''}
         ${skillsHTML ? `<div class="exp-skills">${skillsHTML}</div>` : ''}
         <div class="item-admin-btns" style="display:${isAdmin?'flex':'none'}">
+          <button class="item-move-btn" onclick="moveExp(${e.id},'up')" ${idx===0?'disabled':''} title="Move up">▲</button>
+          <button class="item-move-btn" onclick="moveExp(${e.id},'down')" ${idx===list.length-1?'disabled':''} title="Move down">▼</button>
           <button class="item-edit-btn" onclick="editExp(${e.id})">✏ Edit</button>
           <button class="item-del-btn" onclick="delExp(${e.id})">✕ Delete</button>
         </div>
       </div>`;
   }).join('');
 }
+function moveExp(id, dir) { const l = moveItem(getExp(), id, dir); saveExpData(l); renderExp(); }
 function openExpModal(item) {
   document.getElementById('exp-modal-title').textContent = item ? '💼 Edit Experience' : '💼 Add Experience';
   document.getElementById('exp-edit-id').value = item ? item.id : '';
@@ -2162,18 +2808,21 @@ function savePubsData(list) { localStorage.setItem('uvesh_pubs', JSON.stringify(
 function renderPubs() {
   const list = getPubs(), el = document.getElementById('pub-list');
   if (!list.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📄</div><p><b>No publications yet.</b></p></div>'; return; }
-  el.innerHTML = list.map(p => `
+  el.innerHTML = list.map((p, idx) => `
     <div class="pub-item">
       <div class="pub-authors">${p.authors}</div>
       <div class="pub-title">${p.url ? `<a href="${p.url}" target="_blank">${p.title}</a>` : p.title}</div>
       <div class="pub-venue">${p.venue}</div>
       <span class="pub-status status-${p.status}">${p.statusLabel}</span>
       <div class="item-admin-btns" style="display:${isAdmin?'flex':'none'}">
+        <button class="item-move-btn" onclick="movePub(${p.id},'up')" ${idx===0?'disabled':''} title="Move up">▲</button>
+        <button class="item-move-btn" onclick="movePub(${p.id},'down')" ${idx===list.length-1?'disabled':''} title="Move down">▼</button>
         <button class="item-edit-btn" onclick="editPub(${p.id})">✏ Edit</button>
         <button class="item-del-btn" onclick="delPub(${p.id})">✕ Delete</button>
       </div>
     </div>`).join('');
 }
+function movePub(id, dir) { const l = moveItem(getPubs(), id, dir); savePubsData(l); renderPubs(); }
 function openPubModal(item) {
   document.getElementById('pub-modal-title').textContent = item ? '📄 Edit Publication' : '📄 Add Publication';
   document.getElementById('pub-edit-id').value = item ? item.id : '';
@@ -2219,7 +2868,7 @@ function saveProjsData(list) { localStorage.setItem('uvesh_projs', JSON.stringif
 function renderProjs() {
   const list = getProjs(), el = document.getElementById('proj-grid');
   if (!list.length) { el.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🚀</div><p><b>No projects yet.</b></p></div>'; return; }
-  el.innerHTML = list.map(p => {
+  el.innerHTML = list.map((p, idx) => {
     const skillsHTML = p.skills ? p.skills.split(',').map(s => `<span class="exp-skill">${s.trim()}</span>`).join('') : '';
     return `
       <div class="proj-card">
@@ -2227,12 +2876,15 @@ function renderProjs() {
         <div class="proj-desc">${p.desc}</div>
         ${skillsHTML ? `<div class="exp-skills">${skillsHTML}</div>` : ''}
         <div class="item-admin-btns" style="display:${isAdmin?'flex':'none'}">
+          <button class="item-move-btn" onclick="moveProj(${p.id},'up')" ${idx===0?'disabled':''} title="Move up">▲</button>
+          <button class="item-move-btn" onclick="moveProj(${p.id},'down')" ${idx===list.length-1?'disabled':''} title="Move down">▼</button>
           <button class="item-edit-btn" onclick="editProj(${p.id})">✏ Edit</button>
           <button class="item-del-btn" onclick="delProj(${p.id})">✕ Delete</button>
         </div>
       </div>`;
   }).join('');
 }
+function moveProj(id, dir) { const l = moveItem(getProjs(), id, dir); saveProjsData(l); renderProjs(); }
 function openProjModal(item) {
   document.getElementById('proj-modal-title').textContent = item ? '🚀 Edit Project' : '🚀 Add Project';
   document.getElementById('proj-edit-id').value = item ? item.id : '';
@@ -2273,12 +2925,14 @@ function saveAwardsData(list) { localStorage.setItem('uvesh_awards', JSON.string
 function renderAwards() {
   const list = getAwards(), el = document.getElementById('award-list');
   if (!list.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">🏅</div><p><b>No awards yet.</b></p></div>'; return; }
-  el.innerHTML = list.map(a => `
+  el.innerHTML = list.map((a, idx) => `
     <div class="award-item">
       <div>
         <div class="award-title">${a.title}</div>
         <div class="award-org">${a.org}</div>
         <div class="item-admin-btns" style="display:${isAdmin?'flex':'none'}">
+          <button class="item-move-btn" onclick="moveAward(${a.id},'up')" ${idx===0?'disabled':''} title="Move up">▲</button>
+          <button class="item-move-btn" onclick="moveAward(${a.id},'down')" ${idx===list.length-1?'disabled':''} title="Move down">▼</button>
           <button class="item-edit-btn" onclick="editAward(${a.id})">✏ Edit</button>
           <button class="item-del-btn" onclick="delAward(${a.id})">✕ Delete</button>
         </div>
@@ -2286,6 +2940,7 @@ function renderAwards() {
       <div class="award-year">${a.year}</div>
     </div>`).join('');
 }
+function moveAward(id, dir) { const l = moveItem(getAwards(), id, dir); saveAwardsData(l); renderAwards(); }
 function openAwardModal(item) {
   document.getElementById('award-modal-title').textContent = item ? '🏅 Edit Award' : '🏅 Add Award';
   document.getElementById('award-edit-id').value = item ? item.id : '';
@@ -2309,6 +2964,57 @@ function saveAward() {
   saveAwardsData(list); closeModal('modal-award'); renderAwards();
 }
 function delAward(id) { if (!confirm('Delete this award?')) return; saveAwardsData(getAwards().filter(a => a.id !== id)); renderAwards(); }
+
+// ══════════════════════════════════════════════════════════════
+// CV SECTION
+// ══════════════════════════════════════════════════════════════
+function getCV() {
+  try { return JSON.parse(localStorage.getItem('uvesh_cv') || 'null'); } catch { return null; }
+}
+function saveCV(data) { localStorage.setItem('uvesh_cv', JSON.stringify(data)); }
+
+function renderCV() {
+  const cv = getCV();
+  const statusEl  = document.getElementById('cv-status-text');
+  const dlBtn     = document.getElementById('cv-download-btn');
+  const uploadBtn = document.getElementById('cv-upload-btn');
+  if (!statusEl) return;
+
+  if (cv) {
+    statusEl.innerHTML = `<span style="color:#276136;">✅ CV uploaded</span> &nbsp;·&nbsp; <span style="color:var(--text-light);">${cv.name} &nbsp;·&nbsp; Updated: ${cv.date}</span>`;
+    dlBtn.href = cv.data;
+    dlBtn.setAttribute('download', cv.name);
+    dlBtn.style.display = 'inline-block';
+  } else {
+    statusEl.textContent = 'No CV uploaded yet.';
+    dlBtn.style.display = 'none';
+  }
+  if (uploadBtn) uploadBtn.style.display = isAdmin ? 'inline-block' : 'none';
+}
+
+function onUploadCV() {
+  if (!isAdmin) return;
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.pdf,.doc,.docx';
+  input.onchange = function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { alert('CV file must be under 5MB.'); return; }
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      saveCV({
+        name: file.name,
+        data: ev.target.result,
+        date: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })
+      });
+      renderCV();
+      alert('✅ CV uploaded successfully!');
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
 
 // ══════════════════════════════════════════════════════════════
 // PROFILE SEARCH ENGINE
@@ -2474,7 +3180,43 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// ─── UPDATE PENDING ACTION FOR NOTIFICATIONS ──
+// ══════════════════════════════════════════════════════════════
+// VISITOR COUNTER + FLAGCOUNTER SETUP
+// ══════════════════════════════════════════════════════════════
+(function setupVisitorCounter() {
+  // ── Local visit count ──
+  const KEY = 'uvesh_visit_count';
+  const LAST_KEY = 'uvesh_last_visit';
+  const now = Date.now();
+  const last = parseInt(localStorage.getItem(LAST_KEY) || '0');
+  let count = parseInt(localStorage.getItem(KEY) || '0');
+  // Count as new visit if >30 min since last
+  if (now - last > 30 * 60 * 1000) {
+    count++;
+    localStorage.setItem(KEY, count);
+    localStorage.setItem(LAST_KEY, now);
+  }
+  const el = document.getElementById('local-visit-count');
+  if (el) el.textContent = '👁 ' + count + ' visit' + (count !== 1 ? 's' : '') + ' on this device';
+
+  // ── FlagCounter setup ──
+  // To enable: register free at https://www.flagcounter.com/
+  // Then replace YOUR_ID below with your actual flag counter ID
+  const FLAG_COUNTER_ID = 'xK9Z'; // e.g. 'Abc1' — leave empty until registered
+
+  if (FLAG_COUNTER_ID) {
+    const src = `https://s11.flagcounter.com/count2/${FLAG_COUNTER_ID}/bg_FFFFFF/txt_2c2c2c/border_ddd/columns_2/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/`;
+    const img = document.getElementById('flag-counter-img');
+    const link = document.getElementById('flag-counter-link');
+    const setup = document.getElementById('flag-setup-msg');
+    if (img && link) {
+      img.src = src;
+      link.href = `https://info.flagcounter.com/${FLAG_COUNTER_ID}`;
+      link.style.display = 'block';
+      if (setup) setup.style.display = 'none';
+    }
+  }
+})();
 const _origVerify = verifyPassword;
 // Patch pendingAction to support manage-notifs
 const _origUpdateAdmin = updateAdminUI;
@@ -2490,6 +3232,7 @@ document.addEventListener('DOMContentLoaded', function() {
   renderPubs();
   renderProjs();
   renderAwards();
+  renderCV();
   updateBadge();
   checkAutoPopup();
   // Ring bell after 3s if unread
